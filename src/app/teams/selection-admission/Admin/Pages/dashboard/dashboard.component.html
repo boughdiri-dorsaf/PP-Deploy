@@ -1,0 +1,264 @@
+
+<div class="row">
+  <div class="col-md-12 col-xl-12">
+    <div class="card widget-card-1">
+      <div class="card-block-small" style='height: 90px;'>
+        <em class="icofont icofont-papers bg-c-yellow card1-icon"></em>
+        <span class="text-c-blue f-w-600">Incription & Admission</span>
+        <div>
+        <h4 class="f-left m-t-10 ">
+          Liste des Masters
+        </h4>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+
+
+    <div [hidden]='tabmasters' class="col-md-12 col-xl-12">
+      <app-card [title]="'Liste des Masters'" [cardClass]="'project-task'" [blockClass]="'p-b-10'">
+        <button class='btn btn-success' (click)='tabmasters=true;formmasters=false;emptymaster()' style="margin-bottom: 2%;margin-left: 85%;"><em class="icofont icofont-ui-add"></em> Ajouter</button>
+        <div class="table-responsive">
+          <select [(ngModel)]="selectedAdminEtablissement" (change)='filtertable(selectedAdminEtablissement)'   class="form-control" aria-label="Default select example">
+            <option [value]="-1">Tout les etablissements</option>
+            <ng-container *ngFor="let etab of lstetablissement" >
+                <option [value]="etab.id_etablissement">{{etab.libelle}}</option>
+            </ng-container>
+          </select>
+          <table class="table table-hover">
+            <thead>
+            <tr>
+
+
+              <th>Etablissement</th>
+              <th>Master</th>
+              <th>Admin master</th>
+              <th></th>
+              <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let item of lstmasters | paginate: { id: 'masters',itemsPerPage: 4,currentPage: page}  ">
+
+
+              <td>
+                <p class="d-inline-block m-r-20">{{item.code_etablissement}}</p>
+              </td>
+              <td>
+                <div class="task-contain">
+
+
+                  <p class="d-inline-block m-l-20">{{item.mastername}}</p>
+                </div>
+              </td>
+              <td style='width: 20%;'>
+                <ng-container *ngIf="item.id_admin_master!=null;else noadmin" >
+                  <div >
+                    <p class="d-inline-block m-l-20">{{item.nom+' '+item.prenom}}</p>
+
+                  </div>
+                  <div class='row'>
+                    <p class="d-inline-block m-r-20">{{item.email}}</p>
+                  </div>
+
+
+                </ng-container>
+                <ng-template #noadmin>
+                  <p class="d-inline-block m-r-20">Aucun admin assigné</p>
+
+                </ng-template>
+
+              </td>
+              <td>
+                <button style='margin-right: 5%;' class='btn btn-primary btn-sm' (click)='open(Adminmastermodif,item)'><em style='color:white' class="icofont icofont-edit-alt"></em> </button>
+                <button class='btn btn-success btn-sm' (click)='open(Adminmaster,item)'><em style='color:white' class="icofont icofont-ui-add"></em> </button>
+              </td>
+              <td>
+                <div ngbDropdown placement="bottom-right" class="d-inline-block" container='body'>
+                  <button class="btn btn-outline-none"id="dropdownBasic1"ngbDropdownToggle>
+                    <em class="fa fa-ellipsis-v"></em>
+                  </button>
+                  <div
+                    ngbDropdownMenu
+                    aria-labelledby="dropdownBasic1">
+
+                    <button  ngbDropdownItem (click)='ModifierMaster(item)'>
+                      <em class="icofont icofont-edit-alt"></em>
+                      Modification
+                    </button>
+                    <button ngbDropdownItem  (click)='SupprimerMaster(item)'>
+                      <em  class="icofont icofont-trash"></em>
+                      Suppression
+                    </button>
+                  </div>
+                </div>
+
+              </td>
+            </tr>
+
+            </tbody>
+          </table>
+          <pagination-controls  id="masters"
+          (pageChange)="page = $event"
+          style="margin-left: auto;
+          margin-right: auto;
+          display: table;"
+          responsive="true"
+          previousLabel="Précédent"
+          nextLabel="Suivant"
+         >
+</pagination-controls>
+        </div>
+      </app-card>
+    </div>
+    <div [hidden]='formmasters' class="col-md-12 col-xl-12">
+        <app-card [title]="'Master'" [cardClass]="'project-task'" [blockClass]="'p-b-10'">
+            <form  #masterForm="ngForm" novalidate>
+              <div class="container">
+                <div class="row">
+                  <div class="col-sm">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Nom master</label>
+                        <input #name="ngModel" [(ngModel)]="M.nom" ngModel  required   type="text" class="form-control"  placeholder="Entrer "[ngModelOptions]="{standalone: true}">
+                        <small id="emailHelp" class="form-text  reddanger"  *ngIf="name.invalid && name.touched">Vous devez entrer le nom du master</small>
+
+                      </div>
+                  </div>
+                  <div class="col-sm">
+
+                  </div>
+                  <div class="col-sm">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Date fin :</label>
+                        <input [(ngModel)]="M.date_fin_master" required #date_fin_master="ngModel" type="date" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Entrer l date" [ngModelOptions]="{standalone: true}">
+                        <small id="emailHelp" class="form-text reddanger" *ngIf="date_fin_master.invalid && name.touched ">Vous devez choisir date de cloture d'admission au master</small>
+                      </div>
+                  </div>
+                </div>
+              </div>
+              <div class="container">
+                <div class="row">
+                  <div class="col-sm">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Etablissement</label>
+                        <select [(ngModel)]="M.id_etablissement" #id_etablissement="ngModel" required  class="form-control" [ngModelOptions]="{standalone: true}">
+                          <option *ngFor="let item of lstetablissement"   [value]='item.id_etablissement'>{{item.libelle}}</option>
+                        </select>
+                        <small id="emailHelp" class="form-text reddanger" *ngIf="id_etablissement.invalid  && name.touched">Vous devez choisir l'Etablissement de master</small>
+                      </div>
+                  </div>
+                  <div class="col-sm">
+
+                  </div>
+                  <div class="col-sm">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Département</label>
+                        <select [(ngModel)]="M.id_departement" required #id_departement="ngModel" class="form-control" [ngModelOptions]="{standalone: true}">
+                          <option *ngFor="let item of lstdepartement"  [value]='item.id_departement'>{{item.libelle}}</option>
+                        </select>
+                        <small id="emailHelp" class="form-text reddanger" *ngIf="id_departement.invalid && name.touched ">Vous devez choisir Département de master</small>
+                      </div>
+                  </div>
+                </div>
+              </div>
+              <div class="container">
+                <div class="row">
+                  <div class="col-sm">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Seuil d'admission</label>
+                        <input [(ngModel)]="M.seuil_admission" [min]='0' required #seuil_admission='ngModel' [ngModelOptions]="{standalone: true}" type="number" pattern="^$|^([0-9]|[1-9][0-9]|[1][0][0])?" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder=" ">
+                        <small id="emailHelp" class="form-text reddanger" *ngIf="seuil_admission.invalid && seuil_admission.touched && seuil_admission.errors.pattern">Vous devez entrer le seuil d'admission</small>
+
+                      </div>
+                  </div>
+                  <div class="col-sm">
+
+                  </div>
+                  <div class="col-sm">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Seuil D'admission en attente</label>
+                        <input [(ngModel)]="M.seuil_admis_attente"  [min]='0' #seuil_admis_attente="ngModel" required [ngModelOptions]="{standalone: true}" type="number" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="">
+                        <small id="emailHelp" class="form-text reddanger" *ngIf="seuil_admis_attente.invalid && seuil_admis_attente.touched ">Vous devez entrer le seuil d'admission en attente</small>
+                      </div>
+                  </div>
+                </div>
+              </div>
+              <div style='margin-top: 5%;margin-bottom: 3%;margin-left: 76%;' class='row'>
+                <button class='btn btn-danger' style='margin-bottom: 4%;margin-right: 3%;'(click)='tabmasters=false;formmasters=true;modif=false'>Annuler</button>
+                <button class='btn btn-success' type='submit' [hidden]='modif' style='margin-bottom: 4%;' [disabled]="name.invalid || seuil_admis_attente.invalid || seuil_admission.invalid || id_departement.invalid || date_fin_master.invalid || id_etablissement.invalid" (click)='Addmaster()'><em class="icofont icofont-ui-add"></em> Ajouter</button>
+                <button class='btn btn-success' type='submit' [hidden]='!modif' style='margin-bottom: 4%;' [disabled]="name.invalid || seuil_admis_attente.invalid || seuil_admission.invalid || id_departement.invalid || date_fin_master.invalid || id_etablissement.invalid" (click)='EnregistrerMaster()'><em class="icofont icofont-ui-add"></em> Enregistrer</button>
+              </div>
+            </form>
+        </app-card>
+    </div>
+  </div>
+  <ng-template #Adminmaster let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="Application">Ajouter admin master</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+    <div class="mb-3 row">
+      <label for="inputPassword" class="col-sm-2 col-form-label">Nom</label>
+      <div class="col-sm-10">
+        <input type="text" required [(ngModel)]="AdminMaster.nom" #adminNom='ngModel' class="form-control" id="inputPassword">
+      <span class="form-text text-muted text-left" *ngIf="adminNom.touched && !adminNom.valid">Entrez le prenom !</span>
+      </div>
+    </div>
+    <div class="mb-3 row">
+      <label for="inputPassword" class="col-sm-2 col-form-label">Prenom</label>
+      <div class="col-sm-10">
+        <input type="text" required [(ngModel)]="AdminMaster.prenom" #adminPrenom='ngModel' class="form-control" id="inputPassword">
+      <span class="form-text text-muted text-left" *ngIf="adminPrenom.touched && !adminPrenom.valid">Entrez le nom !</span>
+      </div>
+    </div>
+    <div class="mb-3 row">
+      <label for="inputPassword" class="col-sm-2 col-form-label">Email</label>
+      <div class="col-sm-10">
+        <input type="text" required [(ngModel)]="AdminMaster.email" #adminEmail='ngModel' pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" class="form-control" id="inputPassword">
+      <span class="form-text text-muted text-left" *ngIf="adminEmail.touched && !adminEmail.valid && adminEmail.errors?.pattern">Entrez une adresse mail valide !</span>
+      </div>
+    </div>
+    <div class="mb-3 row">
+      <label for="inputPassword" class="col-sm-2 col-form-label">Mot de passe</label>
+      <div class="col-sm-10">
+        <input type="text" required [(ngModel)]="AdminMaster.password" #adminmdp='ngModel' pattern='(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}' class="form-control" id="inputPassword">
+      <span class="form-text text-muted text-left" *ngIf="adminmdp.touched && !adminmdp.valid && adminmdp.errors?.pattern">Entrez une adresse mail valide !</span>
+      </div>
+    </div>
+  </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-danger" (click)="modal.close('Save click')">Annuler</button>
+      <button type="button" class="btn btn-outline-primary"[disabled]='adminmdp.invalid || adminEmail.invalid || adminPrenom.invalid || adminNom.invalid '  (click)="AssignerAdminMaster()">Ajouter</button>
+    </div>
+  </ng-template>
+  <ng-template #Adminmastermodif let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="Application">Modifier admin de master</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <label></label>
+      <select [(ngModel)]="selectedAdminMaster"    class="form-control" aria-label="Default select example">
+        <ng-container *ngFor="let AdminMaster of lstAdminMaster" >
+          <ng-container *ngIf="AdminMaster.id_admin_master==null" >
+            <option [value]="AdminMaster.id_user">{{AdminMaster.prenom+' '+AdminMaster.nom}}</option>
+          </ng-container>
+
+        </ng-container>
+      </select>
+
+
+
+  </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-danger" (click)="modal.close('Save click')">Annuler</button>
+      <button type="button" class="btn btn-outline-primary" (click)="ModifierAdminMaster()">Enregistrer</button>
+    </div>
+  </ng-template>

@@ -1,0 +1,206 @@
+<div class="row">
+  <div class="col-md-12 col-xl-12">
+    <div class="card widget-card-1">
+      <div class="card-block-small" style='height: 90px;'>
+        <em class="icofont icofont-building bg-c-blue card1-icon"></em>
+        <span class="text-c-blue f-w-600">Inscription & Admission</span>
+        <div>
+        <h4 class="f-left m-t-10 ">
+          Liste des Etablissement
+        </h4>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+
+
+    <div [hidden]='tabestablishement' class="col-md-12 col-xl-12">
+      <app-card [title]="" [cardClass]="'project-task'" [blockClass]="'p-b-10'">
+        <button class='btn btn-success' (click)='tabestablishement=true;formestablishment=false' style="margin-bottom: 2%;margin-left: 80%;"><em class="icofont icofont-ui-add"></em> Ajouter</button>
+        <div class="table-responsive">
+          <table class="table table-hover">
+            <thead>
+            <tr>
+              <th>#</th>
+              <th>Code</th>
+              <th>Etablissement</th>
+              <th>Rue</th>
+
+              <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let item of lstestablishment | paginate: { id: 'etab',
+            itemsPerPage: 4,
+            currentPage: p
+            };index as i">
+            <td>
+              <img style='    width: 50px;' alt="#" [src]='item.logo' class="d-inline-block m-r-20">
+            </td>
+
+              <td>
+                <div class="task-contain">
+
+                  <p class="d-inline-block m-l-20">{{item.code_etablissement}}</p>
+                </div>
+              </td>
+              <td>
+                <div class="task-contain">
+
+                  <p class="d-inline-block m-l-20">{{item.libelle}}</p>
+                </div>
+              </td>
+              <td>
+                <p class="d-inline-block m-r-20">{{item.rue}}</p>
+              </td>
+
+              <td>
+                <div ngbDropdown placement="bottom-right" class="d-inline-block" container='body' >
+                  <button class="btn btn-outline-none"id="dropdownBasic1"ngbDropdownToggle>
+                    <em class="fa fa-ellipsis-v"></em>
+                  </button>
+                  <div
+                    ngbDropdownMenu
+                    aria-labelledby="dropdownBasic1">
+
+                    <button (click)='ModifierEtab(item)' ngbDropdownItem>
+                      <em class="icofont icofont-edit-alt"></em>
+                      Modification
+                    </button>
+                    <button ngbDropdownItem (click)=' SupprimerMaster(item)'>
+                      <em class="icofont icofont-trash"></em>
+                      Suppression
+                    </button>
+                  </div>
+                </div>
+
+              </td>
+
+            </tr>
+
+            </tbody>
+          </table>
+          <pagination-controls  id="etab"
+          (pageChange)="p = $event"
+          style="margin-left: auto;
+          margin-right: auto;
+          display: table;"
+          responsive="true"
+          previousLabel="Précédent"
+          nextLabel="Suivant"
+         >
+</pagination-controls>
+        </div>
+      </app-card>
+    </div>
+    <div [hidden]='formestablishment' class="col-md-12 col-xl-12">
+        <app-card [title]="''" [cardClass]="'project-task'" [blockClass]="'p-b-10'">
+          <h3 class='text-center'>Ajouter Etablissement</h3>
+          <div class="container">
+              <div class="row">
+                <div class="col-sm">
+                  <div class="form-group">
+                      <label for="exampleInputEmail1">Logo Etablissement</label>
+                      <input   #logo='ngModel' (change)="imageselect()" required [(ngModel)]="E.logo" type="file" class="form-control-file" id="img" aria-describedby="emailHelp" placeholder="Entrer ">
+                      <small id="emailHelp" class="form-text reddanger" *ngIf="logo.invalid && logo.touched ">Vous devez choisir le logo de L'Etablissement</small>
+                    </div>
+                </div>
+                <div class="col-sm">
+
+                </div>
+              </div>
+                <div class="row">
+                  <div class="col-sm">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Nom Etablissement</label>
+                        <input   #libelle='ngModel' required [(ngModel)]="E.libelle" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Entrer ">
+                        <small id="emailHelp" class="form-text reddanger" *ngIf="libelle.invalid && libelle.touched ">Vous devez Entrer le nom de L'Etablissement</small>
+                      </div>
+                  </div>
+                  <div class="col-sm">
+
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Code Etablissement</label>
+                        <input   #code_etablissement='ngModel' required [(ngModel)]="E.code_etablissement" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Entrer ">
+                        <small id="emailHelp" class="form-text reddanger" *ngIf="code_etablissement.invalid && code_etablissement.touched ">Vous devez Entrer le code de L'Etablissement</small>
+                      </div>
+                  </div>
+                  <div class="col-sm">
+
+                  </div>
+                </div>
+              </div>
+              <div class="container">
+                  <label><h4>Adresse : </h4></label>
+                <div class="row">
+                  <div class="col-sm">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Ville :</label>
+                        <select  #ville='ngModel' required [(ngModel)]="E.ville" class="form-control"  >
+                         <option *ngFor="let item of lstville" [value]='item.id_ville'>{{item.libelle_ville}}</option>
+                        </select>
+                        <small id="emailHelp" class="form-text reddanger" *ngIf="ville.invalid  && ville.touched">Vous devez Entrer la ville de L'Etablissement</small>
+                      </div>
+                  </div>
+                  <div class="col-sm">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Gouvernorat :</label>
+                        <select  #gouvernorat_adresse='ngModel' required [(ngModel)]="E.gouvernorat_adresse" class="form-control"  >
+                          <ng-container *ngFor="let item of lstgov ; index as i">
+                            <ng-container *ngIf="item.id_ville==E.ville" >
+                              <option  [value]='item.id_gouvernerat'>{{item.libelle_gouvernerat}}</option>
+                            </ng-container>
+                          </ng-container>
+                         </select>
+                        <small id="emailHelp" class="form-text reddanger" *ngIf="gouvernorat_adresse.invalid && gouvernorat_adresse.touched ">Vous devez Entrer le Gouvernorat de L'Etablissement</small>
+                      </div>
+                  </div>
+
+                  <div class="col-sm"></div>
+                </div>
+              </div>
+              <div class="container">
+                <div class="row">
+                  <div class="col-sm">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Rue</label>
+                        <input  #rue='ngModel' required [(ngModel)]="E.rue"  type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="13 rue ... ">
+
+                        <small id="emailHelp" class="form-text reddanger" *ngIf="rue.invalid && rue.touched ">Vous devez Entrer le rue de L'Etablissement</small>
+                      </div>
+                  </div>
+                  <div class="col-sm">
+                    <div class="form-group">
+                      <label for="exampleInputEmail1">Code Postale</label>
+                      <input  #code_postale='ngModel' required [(ngModel)]="E.code_postale"  type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="****">
+
+                      <small id="emailHelp" class="form-text reddanger" *ngIf="code_postale.invalid && code_postale.touched ">Vous devez Entrer la code postale de L'Etablissement</small>
+                    </div>
+                  </div>
+                  <div class="col-sm"></div>
+                </div>
+                <div class='row'>
+                  <div class="col-6">
+                    <div class="form-group">
+                      <label for="exampleInputEmail1">Site Web</label>
+                      <input  #site_web='ngModel'  [(ngModel)]="E.site_web"  type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="****">
+
+                      <small id="emailHelp" class="form-text reddanger" *ngIf="site_web.invalid && site_web.touched ">Vous devez Entrer le site web de L'Etablissement</small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div style='margin-top: 5%;margin-bottom: 3%;margin-left: 76%;' class='row'>
+                <button class='btn btn-danger' style='margin-bottom: 4%;margin-right: 3%;'(click)='tabestablishement=false;formestablishment=true'>Annuler</button>
+                <button class='btn btn-success' type='submit' style='margin-bottom: 4%;'[hidden]='modif'  [disabled]="libelle.invalid || site_web.invalid|| code_postale.invalid || rue.invalid ||  gouvernorat_adresse.invalid || ville.invalid" (click)='AjouterEstablishement()'><em class="icofont icofont-ui-add"></em> Ajouter</button>
+                <button class='btn btn-success' type='submit' style='margin-bottom: 4%;'[hidden]='!modif' [disabled]="libelle.invalid || site_web.invalid|| code_postale.invalid || rue.invalid ||  gouvernorat_adresse.invalid || ville.invalid"   (click)='EnregistereEstablishement()'><em class="icofont icofont-ui-add"></em> Enregistrer</button>
+              </div>
+        </app-card>
+    </div>
+  </div>

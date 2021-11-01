@@ -1,0 +1,324 @@
+<div class="row">
+    <div class="col-md-12 col-xl-12">
+      <div class="card widget-card-1">
+        <div class="card-block-small" style='height: 90px;'>
+          <em class="icofont icofont-briefcase bg-c-yellow card1-icon"></em>
+          <span class="text-c-blue f-w-600">Inscription & Admission</span>
+          <div>
+          <h4 class="f-left m-t-10 ">
+            Liste des candidats master
+          </h4>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <input type="file" name="importlistenotes" id="importlistenotes"
+        (change)="importNotesList($event.target.files)"
+        accept=".csv"/>
+  <div class='row'>
+    <div  class="col-md-12 col-xl-12">
+      <app-card [title]="'Liste des Applications'" [cardClass]="'project-task'" [blockClass]="'p-b-10'">
+
+        <div class="b-t-default">
+          <div class="row m-0">
+            <div class="col-4 f-btn text-center b-r-default p-t-15 p-b-15 ">
+              <a href="javascript:" class='unselected' (click)='selectTable(1)'  [ngClass]="{'selected':selectedTable==1}">
+                <em class="icofont icofont-address-book  m-r-10 "></em>
+                <p class=" m-0  d-inline-block ">Liste des demandes</p>
+              </a>
+            </div>
+            <div class="col-4 f-btn text-center b-r-default p-t-15 p-b-15 ">
+              <a href="javascript:" class='unselected' (click)='selectTable(2)'  [ngClass]="{'selected':selectedTable==2}">
+                <em class="icofont icofont-loop  m-r-10 "></em>
+                <p class=" m-0  d-inline-block ">Candidats préselectionné</p>
+              </a>
+            </div>
+            <div class="col-4 f-btn text-center p-t-15 p-b-15 ">
+              <a href="javascript:" class='unselected'  (click)='selectTable(3)' [ngClass]="{'selected':selectedTable==3}">
+                <em class="icofont icofont-checked  m-r-10 "></em>
+                <p class=" m-0  d-inline-block ">Candidats Accepté</p>
+              </a>
+            </div>
+          </div>
+        </div>
+          <div class='container' *ngIf="selectedTable==1">
+             <div class='row'>
+                <div class='col-3'>
+                  <div class="mb-3">
+                    <label for="Nombre-Etudiant" class="form-label">Nombre etudiants</label>
+                    <input type="number" [(ngModel)]="nbetud" class="form-control" id="Nombre-Etudiant" min='0' max='100' (blur)='checknumber()'>
+                  </div>
+
+                </div>
+                <div class='col-3'>
+                  <div class="mb-3">
+                    <label for="Nombre-Etudiant" class="form-label">Etat</label>
+                     <select class='form-control' [(ngModel)]="etat">
+                      <option [value]='"4"'>Présélectionné</option>
+                      <option [value]='"3"'>En Cours</option>
+                      <option [value]='"2"'>Refuser</option>
+                     </select>
+                  </div>
+                </div>
+                <div class='col-3'>
+                  <button class='btn btn-primary' style='margin-top: 8%;' (click)='setEtat()'>Appliquer pour tous</button>
+                </div>
+                <div class="col-3">
+
+                  <button class='btn btn-success' style='margin-top: 8%;' (click)='open3(filtrage);refreshlist()'>Filtrer</button>
+                  <button class='btn btn-success' style='margin-top: 8%;margin-left: 13px;' (click)='exporterListe()'>Exporter</button>
+
+                  </div>
+             </div>
+          </div>
+          <div class='container' *ngIf="selectedTable==2">
+            <div class='row'>
+
+
+
+               <div class="col-6">
+
+                 <label class='btn btn-success' style='margin-top: 8%;' for='importlistenotes' >Importer liste des notes</label>
+                 <button class='btn btn-success' style='margin-top: 8%;margin-left: 13px;' (click)='exporterListe()'>Exporter</button>
+
+                 </div>
+            </div>
+         </div>
+        <div class="table-responsive" >
+          <table class="table table-hover table-striped">
+            <thead>
+            <tr>
+              <th>#</th>
+              <th>Date Application</th>
+              <th>Master</th>
+              <th>Etudiant</th>
+              <th>Etablissement</th>
+              <th>Etat</th>
+              <th class='score-point' (click)='inverse= !inverse;scoreSortClick(Mastersapps)'>
+                <em class="fa fa-sort-desc" *ngIf="inverse" aria-hidden="true"></em>
+                <em class="fa fa-sort-asc" *ngIf="!inverse" aria-hidden="true"></em>
+                Score</th>
+              <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+              <ng-container *ngIf="refresh" >
+            <ng-container *ngFor="let item of Mastersapps  | paginate: { id: 'app',
+            itemsPerPage: pageamount,
+            currentPage: p
+            }" >
+
+                   <tr >
+                    <td>{{item.id_demande}}</td>
+                    <td>{{item.date_inscrit | date}}</td>
+                    <td>{{item.nomMaster}}</td>
+                    <td>{{item.prenom+' '+item.nom}}</td>
+                    <td>{{item.code_etablissement}}</td>
+                    <td>
+                      <ng-container *ngIf="item.edmlibelle=='Refuser'" >
+                        <p style='color:red'>Réfusé</p>
+                      </ng-container>
+                      <ng-container *ngIf="item.edmlibelle=='Accepter'" >
+                        <p style='color:rgb(63, 201, 58)'>Admis</p>
+                      </ng-container>
+
+                      <ng-container *ngIf="item.edmlibelle=='En Cours'" >
+                        <p style='color:rgb(240, 171, 42)'>En Cours</p>
+                      </ng-container>
+                      <ng-container *ngIf="item.edmlibelle=='Confirmé'" >
+                        <p style='color:rgba(23, 26, 238, 0.603)'>Confirmé</p>
+                      </ng-container>
+                      <ng-container *ngIf="item.edmlibelle=='Présélectionné'" >
+                        <p style='color:rgba(23, 26, 238, 0.603)'>Présélectionné</p>
+                      </ng-container>
+                    </td>
+                    <td>{{calculerScore(item).toFixed(2)}}</td>
+                    <td>
+                      <div ngbDropdown placement="bottom-right" class="d-inline-block" >
+                        <button class="btn btn-outline-none"id="dropdownBasic1"ngbDropdownToggle>
+                          <em class="fa fa-ellipsis-v"></em>
+                        </button>
+                        <div
+                          ngbDropdownMenu
+                          aria-labelledby="dropdownBasic1">
+                          <button ngbDropdownItem (click)='ChangerEtatDemandeMaster(item,4)'>
+                            <em class="icofont icofont-check-circled"></em>
+                            Présélection
+                          </button>
+                          <button ngbDropdownItem (click)='ChangerEtatDemandeMaster(item,3)'>
+                            <em class="icofont icofont-spinner"></em>
+                            En attente
+                          </button>
+                          <button ngbDropdownItem (click)='ChangerEtatDemandeMaster(item,2)'>
+                            <em class="icofont icofont-ban"></em>
+                            Refusé
+                          </button>
+
+                        </div>
+                      </div>
+                    </td>
+                   </tr>
+                  </ng-container>
+
+            </ng-container>
+            </tbody>
+          </table>
+        <div class='d-flex justify-content-center'>
+         <div >
+          <pagination-controls  id="app"
+          (pageChange)="p = $event"
+              style="margin-left: auto;
+              margin-right: auto;
+              display: table;"
+              responsive="true"
+              previousLabel="Précédent"
+              nextLabel="Suivant"
+             >
+  </pagination-controls>
+         </div>
+ <div >
+    <select [(ngModel)]="pageamount">
+  <option [value]='5'>5</option>
+  <option [value]='10'>10</option>
+  <option [value]='20'>20</option>
+  <option [value]='50'>50</option>
+  <option [value]='100'>100</option>
+  <option [value]='200'>200</option>
+  <option [value]='250'>250</option>
+  <option [value]='500'>500</option>
+  <option [value]='1000'>1000</option>
+</select>
+</div>
+        </div>
+        </div>
+      </app-card>
+    </div>
+  </div>
+  <ng-template #content let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="Niveau">Informations Application</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click');">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div>
+        <div class="form-group">
+          <label for="Niveau">Libelle</label>
+          <div class="input-group">
+            <input  id="Niveau" class="form-control"  type='text'>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Enregistrer</button>
+    </div>
+  </ng-template>
+  <ng-template #filtrage let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Filtrer</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click');filtrageGlobale()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div>
+        <div class="form-group">
+          <label for="Domaine">Candidatures :</label>
+         <div class='container'>
+          <div class="row">
+            <div class='col-3'>
+             <input class="form-check-input"   type="radio" value='tout' required [(ngModel)]="filtre.candidature" name="flexRadioDefault" id="flexRadioDefault1">
+             <label class="form-check-label" for="flexRadioDefault1">
+               Toutes
+             </label>
+            </div>
+            <div class='col-3'>
+             <input class="form-check-input"  type="radio" value='Internes' required [(ngModel)]="filtre.candidature" name="flexRadioDefault" id="flexRadioDefault2">
+             <label class="form-check-label" for="flexRadioDefault2">
+               Internes
+             </label>
+            </div>
+            <div class='col-3'>
+             <input class="form-check-input"   type="radio" value='Externes' required [(ngModel)]="filtre.candidature" name="flexRadioDefault" id="flexRadioDefault3">
+             <label class="form-check-label" for="flexRadioDefault3">
+               Externes
+             </label>
+            </div>
+           </div>
+         </div>
+        </div>
+        <div class="form-group">
+          <label for="Domaine">Etablissements :</label>
+          <div class="input-group">
+            <select [(ngModel)]="filtre.etablissement" class="form-control">
+             <option [value]="'aucune'">Aucune</option>
+
+             <ng-container *ngFor="let item of lstetab" >
+               <option  [value]='item'>{{item}}</option>
+             </ng-container>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="Domaine">Diplômes :</label>
+          <div class="input-group">
+            <select  [(ngModel)]="filtre.diplomes" class="form-control">
+              <option [value]="'aucune'">Aucune</option>
+              <ng-container *ngFor="let item of lstdip" >
+                <option  [value]='item.libelle_diplome'>{{item.libelle_diplome}}</option>
+              </ng-container>
+             </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="Domaine">Domaines :</label>
+          <div class="input-group">
+            <select [(ngModel)]="filtre.domaines" class="form-control">
+              <option value="aucune">Aucune</option>
+              <ng-container *ngFor="let item of lstdom" >
+                <option [value]='item.id_domaine'  >{{item.libelle}}</option>
+              </ng-container>
+             </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="Domaine">Spécialités :</label>
+          <div class="input-group">
+            <select [(ngModel)]="filtre.specialite" class="form-control">
+              <option value="aucune">Aucune</option>
+              <ng-container *ngFor="let item of lstspec" >
+               <ng-container  *ngIf="item.id_domaine==filtre.domaines">
+                <option [value]='item.id_specialite'>{{item.libelles}}</option>
+              </ng-container>
+              </ng-container>
+             </select>
+          </div>
+        </div>
+       <!--
+          <div class="form-group">
+          <label for="Domaine">Score :</label>
+          <div class="input-group">
+            <select class="form-control">
+              <option value="aucune"></option>
+             </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="Domaine">Status :</label>
+          <div class="input-group">
+            <select class="form-control">
+              <option value="aucune"></option>
+             </select>
+          </div>
+        </div>
+       -->
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark"  (click)="filtrageGlobale();modal.close('Save click')">Enregistrer</button>
+      <button type="button" class="btn btn-outline-danger"  (click)="refreshlist();modal.close('Save click')">Renitialiser</button>
+    </div>
+  </ng-template>

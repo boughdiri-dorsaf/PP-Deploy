@@ -1,0 +1,26 @@
+<div class="card {{ fullCard }} {{ cardLoad }}" [@cardClose]="cardClose" [ngClass]="cardClass">
+  <div class="card-header" *ngIf="title">
+    <h5>{{ title }}</h5>
+    <span *ngIf="!classHeader">{{ headerContent }}</span>
+    <span *ngIf="classHeader">
+      <ng-content select=".code-header"></ng-content>
+    </span>
+    <div class="card-header-right">
+      <ul class="list-unstyled card-option">
+        <li *ngIf="!isCardToggled" (click)="this.isCardToggled = !this.isCardToggled"><em class="icofont icofont-simple-left"></em> </li>
+        <li *ngIf="isCardToggled" (click)="this.isCardToggled = !this.isCardToggled"><em class="icofont icofont-simple-right"></em> </li>
+        <li *ngIf="isCardToggled"><em class="icofont icofont-maximize {{ fullCardIcon }} full-card" (click)="fullScreen($event)"></em> </li>
+        <li *ngIf="isCardToggled"><em class="icofont icofont-minus minimize-card" appCardToggleEvent (click)="toggleCard($event)"></em> </li>
+        <li *ngIf="isCardToggled"><em class="icofont icofont-refresh reload-card" (click)="appCardRefresh($event)" ></em> </li>
+        <li *ngIf="isCardToggled"><em class="icofont icofont-error close-card" (click)="closeCard($event)"></em> </li>
+      </ul>
+    </div>
+  </div>
+
+  <div [@cardToggle]="cardToggle">
+    <div class="card-body" [ngClass]="blockClass">
+      <ng-content></ng-content>
+    </div>
+  </div>
+  <div class="card-loader" *ngIf="loadCard"><em class="icofont icofont-refresh rotate-refresh"></em> </div>
+</div>

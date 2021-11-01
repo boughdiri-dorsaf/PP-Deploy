@@ -1,0 +1,135 @@
+<div class="row">
+  <div class="col-md-12 col-xl-12">
+    <div class="card widget-card-1">
+      <div class="card-block-small" style='height: 90px;'>
+        <em class="icofont icofont-hard-disk bg-c-yellow card1-icon"></em>
+        <span class="text-c-blue f-w-600">Inscription & Admission</span>
+        <div>
+        <h4 class="f-left m-t-10">
+          Liste des Departements
+        </h4>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+
+
+    <div [hidden]='tabdepartment' class="col-md-12 col-xl-12">
+      <app-card [title]="'Liste des Departements'" [cardClass]="'project-task'" [blockClass]="'p-b-10'">
+        <button class='btn btn-success' (click)='tabdepartment=true;formdepartment=false' style="margin-bottom: 2%;margin-left: 80%;"><em class="icofont icofont-ui-add"></em> Ajouter</button>
+        <div class="table-responsive">
+          <table class="table table-hover">
+            <thead>
+            <tr>
+
+              <th>Code</th>
+              <th>Departement</th>
+              <th>Description</th>
+              <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let item of lstdepartment | paginate: { id: 'dep',
+            itemsPerPage: 4,
+            currentPage: page
+            }">
+              <td>
+                <div class="task-contain">
+                  <h6 class="bg-c-blue d-inline-block text-center">{{item.code}}</h6>
+                </div>
+              </td>
+              <td>
+                <p class="d-inline-block m-r-20">{{item.libelle}}</p>
+              </td>
+              <td>
+                <p class="d-inline-block m-r-20">{{item.description}}</p>
+              </td>
+              <td>
+                <div  ngbDropdown container='body' placement="bottom-right" class="d-inline-block" >
+                  <button class="btn btn-outline-none"id="dropdownBasic1"ngbDropdownToggle>
+                    <em class="fa fa-ellipsis-v"></em>
+                  </button>
+                  <div
+                    ngbDropdownMenu
+                    aria-labelledby="dropdownBasic1">
+
+                    <button ngbDropdownItem (click)='modifier(item)'>
+                      <em class="icofont icofont-edit-alt"></em>
+                      Modification
+                    </button>
+                    <button ngbDropdownItem (click)='SupprimerDep(item)'>
+                      <em class="icofont icofont-trash"></em>
+                      Suppression
+                    </button>
+                  </div>
+                </div>
+
+              </td>
+            </tr>
+
+            </tbody>
+          </table>
+          <pagination-controls  id="dep"
+          (pageChange)="page = $event"
+          style="margin-left: auto;
+          margin-right: auto;
+          display: table;"
+          responsive="true"
+          previousLabel="Précédent"
+          nextLabel="Suivant"
+         >
+</pagination-controls>
+        </div>
+      </app-card>
+    </div>
+    <div [hidden]='formdepartment' class="col-md-12 col-xl-12">
+
+        <app-card [title]="'Ajouter Departement'" [cardClass]="'project-task'" [blockClass]="'p-b-10'">
+
+          <div class="container">
+                <div class="row">
+                  <div class="col-sm">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Code Departement : </label>
+                        <input [(ngModel)]="D.code" #code='ngModel' required type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Entrer ">
+                        <small id="emailHelp" *ngIf='code.invalid && code.touched' class="form-text reddanger"> Vous devez entrer le Code du Departement</small>
+                      </div>
+                  </div>
+                  <div class="col-sm">
+
+                  </div>
+                  <div class="col-sm">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Libéllé Departement : </label>
+                        <input [(ngModel)]="D.libelle" #libelle='ngModel' required type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Entrer ">
+                        <small id="emailHelp" *ngIf='libelle.invalid && libelle.touched' class="form-text reddanger">Vous devez entrer le Libéllé du Departement</small>
+                      </div>
+                </div>
+                </div>
+              </div>
+              <div class="container">
+                  <label><h3>Description : </h3></label>
+                <div class="row">
+                  <div class="col-sm">
+                    <div class="form-group">
+                    <textarea [(ngModel)]="D.description" #description='ngModel'  class="form-control"  cols="30" rows="10"></textarea>
+                    <small id="emailHelp" *ngIf='description.invalid && description.touched' class="form-text reddanger">Vous devez entrer la description du Departement</small>
+                  </div>
+                  </div>
+
+                  <div class="col-sm">
+
+                </div>
+              </div>
+              </div>
+
+              <div style='margin-top: 5%;margin-bottom: 3%;margin-left: 76%;' class='row'>
+                <button class='btn btn-danger' style='margin-bottom: 4%;margin-right: 3%;' [disabled]='libelle.invalid || code.invalid || description.invalid' (click)='tabdepartment=false;formdepartment=true;emptydep()'>Annuler</button>
+                <button class='btn btn-success' style='margin-bottom: 4%;'[hidden]='modif' [disabled]='libelle.invalid || code.invalid || description.invalid' (click)='AjouterDepartement()'><em class="icofont icofont-ui-add"></em> Ajouter</button>
+                <button class='btn btn-success' style='margin-bottom: 4%;'[hidden]='!modif' [disabled]='libelle.invalid || code.invalid || description.invalid' (click)='enregistrer()'><em class="icofont icofont-ui-add"></em> Enregistrer</button>
+              </div>
+        </app-card>
+    </div>
+  </div>

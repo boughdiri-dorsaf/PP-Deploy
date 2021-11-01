@@ -1,0 +1,466 @@
+<div class="row">
+  <div class="col-md-12 col-xl-12">
+    <div class="card widget-card-1">
+      <div class="card-block-small" style='height: 90px;'>
+        <em class="icofont icofont-briefcase bg-c-yellow card1-icon"></em>
+        <span class="text-c-blue f-w-600">Inscription & Admission</span>
+        <div>
+        <h4 class="f-left m-t-10 ">
+          Cursus
+        </h4>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+    <app-card style='width: 100%;' [title]="" [cardClass]="'project-task'" [blockClass]="'p-b-10'">
+      <div [hidden]='!switch'>
+        <div class="container">
+          <label class='title'><em class="icofont icofont-university"></em> Bacclauréat ou diplome équivalent</label>
+          <hr>
+          <div class="row">
+            <div class="col-4 titleinput">Année du bac :</div>
+            <div class="col-6">
+              <select [disabled]='thereiscursus' [(ngModel)]="Bacc.annee" #anneebac="ngModel" required class="form-control" >
+                <option *ngFor="let item of lstAUfin"  [value]='item.nom'>{{item.nom}}</option>
+              </select>
+              <div style='font-size: 12px;' class="alert-danger" *ngIf="anneebac.invalid && anneebac.touched">
+                Vous Devez choisir Votre annee de bac !
+              </div>
+
+            </div>
+            <div class="col-sm"></div>
+            <div class="col-sm"></div>
+        </div>
+        <div class="row away">
+          <div class="col-4 titleinput">Section :</div>
+          <div class="col-6">
+            <select [disabled]='thereiscursus' [(ngModel)]="Bacc.section" required class="form-control" #section="ngModel">
+              <option [value]='"Informatique"'>Informatique</option>
+              <option [value]='"Science"'>Science</option>
+              <option [value]='"lettres"'>lettres</option>
+              <option [value]='"Technique"'>Technique</option>
+              <option [value]='"Economie et Gestion"'>Economie et Gestion</option>
+              <option [value]='"Math"'>Math</option>
+            </select>
+            <div style='font-size: 12px;' class="alert-danger" *ngIf="section.invalid && section.touched">
+              Vous Devez choisir Votre Section de bac !
+            </div>
+
+          </div>
+          <div class="col-sm"></div>
+          <div class="col-sm"></div>
+      </div>
+      <div class="row away">
+        <div class="col-4 titleinput">Moyenne du bac :</div>
+        <div class="col-6">
+          <input  [(ngModel)]="Bacc.moyenne"  [disabled]='thereiscursus' required  #moyenne="ngModel" type="number"[min]="10" [max]="20" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Moyenne Bac ">
+          <div style='font-size: 12px;' class="alert-danger" *ngIf="moyenne.invalid && moyenne.touched">
+            Vous Devez Entrer Votre Moyenne !
+          </div>
+        </div>
+        <div class="col-sm"></div>
+        <div class="col-sm"></div>
+      </div>
+      <div class="row away">
+        <div class="col-4 titleinput">Mention :</div>
+        <div class="col-6">
+
+          <ng-container *ngIf="Bacc.moyenne>=10 && Bacc.moyenne<=12" > <h5>Passable</h5></ng-container>
+          <ng-container *ngIf="Bacc.moyenne>12.1 && Bacc.moyenne<=14" > <h5>Assez bien</h5></ng-container>
+          <ng-container *ngIf="Bacc.moyenne>14.1 && Bacc.moyenne<=16" > <h5>Bien</h5></ng-container>
+          <ng-container *ngIf="Bacc.moyenne>16.1 && Bacc.moyenne<=18" > <h5>Trés bien</h5></ng-container>
+          <ng-container *ngIf="Bacc.moyenne>18.1 && Bacc.moyenne<=20" > <h5>Excellent</h5></ng-container>
+
+        </div>
+        <div class="col-sm"></div>
+        <div class="col-sm"></div>
+    </div>
+    <div class="row away">
+      <div class="col-4 titleinput">Session :</div>
+      <div class="col-6">
+
+        <div class='row' style='margin-left: 1%;'>
+
+          <div class='col-4'>
+            <input [disabled]='thereiscursus' class="form-check-input" #genre="ngModel"  type="radio" value='Principale' required [(ngModel)]="Bacc.session" name="Baccseession" id="flexRadioDefault2">
+            <label class="form-check-label" for="flexRadioDefault2">
+              Principale
+            </label>
+           </div>
+               <div class='col-4'>
+                <input [disabled]='thereiscursus' class="form-check-input" #genre="ngModel" value='Controle' type="radio" required [(ngModel)]="Bacc.session" name="Baccseession" id="flexRadioDefault1">
+                <label class="form-check-label" for="flexRadioDefault1">
+                  Controle
+                </label>
+               </div>
+        </div>
+
+      </div>
+      <div class="col-sm"></div>
+      <div class="col-sm"></div>
+  </div>
+
+        </div>
+        <div class="container mt-5">
+          <label class='title'><em class="icofont icofont-university"></em> Cursus général</label>
+          <hr>
+          <div class="row">
+            <div class="col-4 titleinput">Dernier diplome obtenu :</div>
+            <div class="col-6">
+              <select [disabled]='thereiscursus' class="form-control" [(ngModel)]="CursusG.diplome" required
+              #diplome="ngModel">
+              <ng-container *ngFor="let item of lstdiplomes" >
+                <option [value]='item.libelle_diplome'>{{item.libelle_diplome}}</option>
+              </ng-container>
+              </select>
+              <div style='font-size: 12px;' class="alert-danger" *ngIf="diplome.invalid && diplome.touched">
+                Vous Devez choisir Votre Diplome !
+              </div>
+            </div>
+            <div class="col-sm"></div>
+            <div class="col-sm"></div>
+        </div>
+        <div class="row away">
+          <div class="col-4 titleinput">Etablissement du diplome :</div>
+          <div class="col-6">
+            <select [disabled]='thereiscursus' class="form-control" [(ngModel)]="CursusG.etablissement" required
+            #etablissement="ngModel">
+              <option *ngFor="let item of lstetab"  [value]='item.id_etablissement'>{{item.libelle}}</option>
+            </select>
+            <div style='font-size: 12px;' class="alert-danger" *ngIf="etablissement.invalid && etablissement.touched">
+              Vous Devez choisir Votre Etablissement !
+            </div>
+          </div>
+          <div class="col-sm"></div>
+          <div class="col-sm"></div>
+      </div>
+      <div class="row away">
+        <div class="col-4 titleinput">Année obtention du diplome:</div>
+        <div class="col-6">
+          <select [disabled]='thereiscursus' [(ngModel)]="CursusG.anneeobtentation" required class="form-control" #anneeobtentation="ngModel">
+            <option *ngFor="let item of lstAUfin"  [value]='item.nom'>{{item.nom}}</option>
+          </select>
+          <div style='font-size: 12px;' class="alert-danger" *ngIf="anneeobtentation.invalid && anneeobtentation.touched">
+            Vous devez choisir votre année obtention du diplome !
+          </div>
+        </div>
+        <div class="col-sm"></div>
+        <div class="col-sm"></div>
+      </div>
+      <div class="row away">
+        <div class="col-4 titleinput">Domaine :</div>
+        <div class="col-6">
+          <select [disabled]='thereiscursus' class="form-control" required   #domaine="ngModel" [(ngModel)]="CursusG.domaine" (ngModelChange)='getspecialties(CursusG.domaine)'>
+            <option *ngFor="let item of lstdomaine" [value]='item.id_domaine'>{{item.libelle}}</option>
+          </select>
+          <div style='font-size: 12px;' class="alert-danger" *ngIf="domaine.invalid && domaine.touched">
+            Vous Devez choisir Votre domaine !
+          </div>
+        </div>
+        <div class="col-sm"></div>
+        <div class="col-sm"></div>
+    </div>
+    <div class="row away">
+      <div class="col-4 titleinput">Spécialité :</div>
+      <div class="col-6">
+        <select [disabled]='thereiscursus' class="form-control" [(ngModel)]="CursusG.specialite" required   #specialite="ngModel">
+          <option *ngFor="let item of lstspecialite" [value]='item.id_specialite'>{{item.libelles}}</option>
+        </select>
+        <div style='font-size: 12px;' class="alert-danger" *ngIf="specialite.invalid && specialite.touched">
+          Vous devez choisir votre spécialité !
+        </div>
+      </div>
+      <div class="col-sm"></div>
+      <div class="col-sm"></div>
+  </div>
+  <div class="row away">
+    <div class="col-4 titleinput">Nombre de redoublements :</div>
+    <div class="col-6">
+      <select [disabled]='thereiscursus' class="form-control"[(ngModel)]="CursusG.Redoublement" required   #Redoublement="ngModel">
+        <option [value]='"0"'>0</option>
+        <option [value]='"1"'>1</option>
+        <option [value]='"2"'>2</option>
+        <option [value]='"3"'>3</option>
+        <option [value]='"4"'>4</option>
+        <option [value]='"5"'>5</option>
+      </select>
+      <div style='font-size: 12px;' class="alert-danger" *ngIf="Redoublement.invalid && Redoublement.touched">
+        Vous devez specifier le  nombre de redoublement !
+      </div>
+    </div>
+    <div class="col-sm"></div>
+    <div class="col-sm"></div>
+  </div>
+  <button [hidden]='!exist'  class='btn btn-success' style='margin-left: 81%;margin-bottom: 6%;margin-top: 3%;' (click)='ajouteretudiant()'><em class='icofont icofont-ui-add'></em> Enregistrer</button>
+  <button [hidden]='exist'  class='btn btn-success' style='margin-left: 81%;margin-bottom: 6%;margin-top: 3%;' (click)='Enregistrer()'><em class='icofont icofont-ui-add'></em> Enregistrer</button>
+
+        </div>
+         <div >
+           <div class="container mt-5">
+            <label class='title'><em class="icofont icofont-university"></em> Cursus détaillé</label>
+            <hr>
+           <div class='row'>
+             <p>Cliquer sur le bouton «Ajouter une année universitaire» pour ajouter une nouvelle ligne dans le tableau. Il faut ajouter toutes les années universitaires après le bac jusqu'au dernier diplôme obtenu (sauf les années blanches).</p>
+             <button class="btn-success btn-md col-4" [disabled]='hasbaccursusG || exist' (click)='SwitchCursus()'><em class="icofont icofont-ui-add"></em> &nbsp;&nbsp;&nbsp;Ajouter une année universitaire</button>
+
+          <div>
+            <table class=" table table-striped" style='table-layout:fixed;'>
+              <thead>
+                <tr>
+                  <th>Année <br> Universitaire</th>
+                  <th>Établissement</th>
+                  <th>Domaine</th>
+                  <th>Spécialité</th>
+                  <th>Niveau</th>
+                  <th>Moyenne	</th>
+                  <th>Credit	</th>
+                  <th>Mention</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <ng-container *ngFor="let item of lstcursus" >
+                  <tr>
+                    <td> {{item.au_debut+"/"+item.au_fin}} </td>
+                    <td> {{getetablissement(item.id_etablissement)}} </td>
+                    <td style='width: 1%;'> <p class='text-truncate' style='width:100%;font-size: 10px;'>{{getdomaine(item.id_domaine)}} </p></td>
+                    <td style='width: 1%;'> <p class='text-truncate' style='width:100%;font-size: 10px;'>{{getspecialite(item.id_specialite)}}</p> </td>
+                    <td style='text-align: center;'> {{getniveau(item.id_niveau)}} </td>
+                    <td style='text-align: center;'> {{item.moyenne}} </td>
+                    <td style='text-align: center;'> {{item.credit}} </td>
+                    <td style='text-align: center;'> {{item.mention}} </td>
+                    <td>
+                      <div ngbDropdown placement="bottom-right" class="d-inline-block" >
+                        <button class="btn btn-outline-none"id="dropdownBasic1"ngbDropdownToggle>
+                          <em class="fa fa-ellipsis-v"></em>
+                        </button>
+                        <div
+                          ngbDropdownMenu
+                          aria-labelledby="dropdownBasic1">
+
+                          <button ngbDropdownItem (click)='modifierCursus(item)'>
+                            <em class="icofont icofont-edit-alt"></em>
+                            Modification
+                          </button>
+                          <button ngbDropdownItem (click)='supprimercursus(item.id_cursus)'>
+                            <em class="icofont icofont-trash"></em>
+                            Suppression
+                          </button>
+                        </div>
+                      </div>
+
+
+                  </tr>
+                </ng-container>
+              </tbody>
+              </table>
+          </div>
+           </div>
+
+
+           </div>
+
+         </div>
+      </div>
+       <div [hidden]='switch'>
+
+        <div class='Repeated-info'>
+          <div class="row">
+            <div class="col-4 titleinput">Annee Debut: </div>
+              <div class="col-6">
+                <div class="form-group">
+
+               <select [(ngModel)]="C.au_debut" #au_debut='ngModel' [disabled]='SwitchRepeatedInfo' required  class="form-control">
+                  <option *ngFor="let item of lstAUdeb"  [value]='item.nom'>{{item.nom}}</option>
+                </select>
+                <small class="form-text reddanger" *ngIf="au_debut.invalid && au_debut.touched ">Vous devez choisir L'annee Debut</small>
+                </div>
+
+              </div>
+        </div>
+
+        <div class="row">
+          <div class="col-4 titleinput">Annee Fin:</div>
+          <div class="col-6">
+            <div class="form-group">
+              <select [(ngModel)]="C.au_fin" required #au_fin='ngModel' class="form-control" [disabled]='SwitchRepeatedInfo'>
+                <ng-container  *ngFor="let item of lstAUdeb" >
+                 <ng-container *ngIf="C.au_debut<item.nom" >
+                  <option [value]='item.nom'>{{item.nom}}</option>
+                 </ng-container>
+                </ng-container>
+                </select>
+                <small class="form-text reddanger" *ngIf="au_fin.invalid && au_fin.touched ">Vous devez choisir L'annee Debut</small>
+            </div>
+          </div>
+        </div>
+
+      <div class='row'>
+        <div class="col-4 titleinput">Etablissement :</div>
+        <div class="col-6">
+          <div class="form-group">
+
+              <select [(ngModel)]="C.id_etablissement" #id_etablissement='ngModel' required class="form-control" [disabled]='SwitchRepeatedInfo'>
+                  <option *ngFor="let item of lstetab"  [value]='item.id_etablissement'>{{item.libelle}}</option>
+                </select>
+
+                <small id="emailHelp" class="form-text reddanger" *ngIf="id_etablissement.invalid && id_etablissement.touched ">Vous devez choisir l'Etablissement</small>
+            </div>
+          </div>
+          <div class="col-sm"></div>
+          <div class="col-sm"></div>
+      </div>
+      <div class='row'>
+        <div class="col-4 titleinput">Domaine :</div>
+        <div class="col-6">
+          <div class="form-group">
+              <select   [(ngModel)]="C.id_domaine" #id_domaine='ngModel'  required (ngModelChange)='getspecialties(C.id_domaine)' class="form-control" [disabled]='SwitchRepeatedInfo'>
+                  <option *ngFor="let item of lstdomaine"  [value]='item.id_domaine'>{{item.libelle}}</option>
+                </select>
+                <small id="emailHelp" class="form-text reddanger" *ngIf="id_domaine.invalid && id_domaine.touched ">Vous devez choisir votre Domaine</small>
+              </div>
+      </div>
+
+          <div class="col-sm"></div>
+          <div class="col-sm"></div>
+
+      </div>
+
+        <div class="row">
+          <div class="col-4 titleinput">Spécialité :</div>
+            <div class="col-6">
+              <div class="form-group">
+
+                  <select [(ngModel)]="C.id_specialite" #id_specialite='ngModel' required  class="form-control" [disabled]='SwitchRepeatedInfo'>
+                      <option *ngFor="let item of lstspecialite"  [value]='item.id_specialite'>{{item.libelles}}</option>
+                    </select>
+
+                <small id="emailHelp" class="form-text reddanger" *ngIf="id_specialite.invalid && id_specialite.touched ">Vous devez choisir le Specialité de votre domaine</small>
+              </div>
+            </div>
+
+            <div class="col-sm"></div>
+            <div class="col-sm"></div>
+
+
+          </div>
+          <div class="row">
+            <div class="col-4 titleinput">Niveau :</div>
+            <div class="col-6">
+              <div class="form-group">
+                  <select [(ngModel)]="C.id_niveau" #id_niveau='ngModel'  required class="form-control" [disabled]='SwitchRepeatedInfo'>
+                      <ng-container *ngFor="let item of lstNiveau"  >
+                        <option [value]='item.id_niveau'>{{item.libelle}}</option>
+                      </ng-container>
+
+                    </select>
+              <small id="emailHelp" class="form-text reddanger" *ngIf="id_niveau.invalid && id_niveau.touched ">Vous devez choisir votre Niveau</small>
+            </div>
+          </div>
+
+          <div class="col-sm"></div>
+          <div class="col-sm"></div>
+          </div>
+
+        </div>
+         <div class='Non-Repeated-info'>
+
+
+          <div class="row" *ngIf='C.id_niveau==4'>
+            <div class="col-4 titleinput">Note PFE :</div>
+            <div class="col-6">
+              <div class="form-group">
+
+                  <input [(ngModel)]="C.note_pfe" pattern="[0-9]+" required type="number" #note_pfe='ngModel' class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Moyenne ">
+            <small id="emailHelp" class="form-text reddanger" *ngIf="note_pfe.invalid && note_pfe.touched ">entrer votre note PFE</small>
+          </div>
+          </div>
+          <div class="col-sm"></div>
+          <div class="col-sm"></div>
+          </div>
+   <div class="row" style='margin-bottom: 2%;'>
+    <div class="col-4 titleinput">Session :</div>
+
+    <div class="col-6">
+      <div class='row' style='margin-left: 1%;'>
+
+        <div class='col-4'>
+          <input class="form-check-input" #sessioncursus="ngModel"  type="radio" value='Principale' required [(ngModel)]="C.session" name="flexRadioDefault" id="flexRadioDefault2">
+          <label class="form-check-label" for="flexRadioDefault2">
+            Principale
+          </label>
+         </div>
+             <div class='col-4'>
+              <input class="form-check-input" #sessioncursus="ngModel" value='Controle' type="radio" required [(ngModel)]="C.session" name="flexRadioDefault" id="flexRadioDefault1">
+              <label class="form-check-label" for="flexRadioDefault1">
+                Controle
+              </label>
+             </div>
+      </div>
+
+      <small id="emailHelp" class="form-text reddanger" *ngIf="sessioncursus.invalid && sessioncursus.touched ">Vous devez Specifier votre session</small>
+    </div>
+    <div class="col-sm"></div>
+    <div class="col-sm"></div>
+   </div>
+    <div class="row">
+      <div class="col-4 titleinput">Moyenne :</div>
+      <div class="col-6">
+        <div class="form-group">
+
+            <input [(ngModel)]="C.moyenne" required pattern="[0-9]+" type="number" #moyennecursus='ngModel' class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Moyenne ">
+      <small id="emailHelp" class="form-text reddanger" *ngIf="moyennecursus.invalid && moyennecursus.touched ">Vous devez entrer votre moyenne</small>
+    </div>
+    </div>
+    <div class="col-sm"></div>
+    <div class="col-sm"></div>
+    </div>
+    <div class="row">
+      <div class="col-4 titleinput">Credit :</div>
+
+      <div class="col-6">
+        <div class="form-group">
+
+            <input  [(ngModel)]="C.credit"  required type="number" max="60" #creditcursus='ngModel' class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Moyenne ">
+      <small id="emailHelp" class="form-text reddanger" *ngIf="creditcursus.invalid && creditcursus.touched ">Vous devez entrer votre credit</small>
+    </div>
+  </div>
+  <div class="col-sm"></div>
+    <div class="col-sm"></div>
+    </div>
+      <div class="row">
+
+
+        <div class="col-4 titleinput">Mention :</div>
+        <div class="col-6">
+          <div class="form-group">
+            <ng-container *ngIf="C.moyenne>=10 && C.moyenne<=12" > <h5>Passable</h5></ng-container>
+            <ng-container *ngIf="C.moyenne>12.1 && C.moyenne<=14" > <h5>Assez bien</h5></ng-container>
+            <ng-container *ngIf="C.moyenne>14.1 && C.moyenne<=16" > <h5>Bien</h5></ng-container>
+            <ng-container *ngIf="C.moyenne>16.1 && C.moyenne<=18" > <h5>Trés bien</h5></ng-container>
+            <ng-container *ngIf="C.moyenne>18.1 && C.moyenne<=20" > <h5>Excellent</h5></ng-container>
+
+            </div>
+    </div>
+    <div class="col-sm"></div>
+    <div class="col-sm"></div>
+        </div>
+
+         </div>
+        <div style='    margin-top: 5%;
+        margin-bottom: 3%;
+        margin-left: 76%;'>
+          <button type='button' class="btn btn-danger" style='margin-right: 2%;' (click)='switch=true'>Annuler</button>
+
+          <button type='button' class="btn btn-success" [hidden]='modif'[disabled]=' au_debut.invalid  || au_fin.invalid  || id_etablissement.invalid  ||  id_domaine.invalid || id_specialite.invalid  || id_niveau.invalid  || sessioncursus.invalid  || moyennecursus.invalid  || creditcursus.invalid  ' (click)='AjouterCursus()'><em class='icofont icofont-ui-add'></em> Enregistrer</button>
+          <button type='button' class="btn btn-success" [hidden]='!modif' [disabled]=' au_debut.invalid  || au_fin.invalid  || id_etablissement.invalid  ||  id_domaine.invalid || id_specialite.invalid  || id_niveau.invalid  || sessioncursus.invalid  || moyennecursus.invalid  || creditcursus.invalid  ' (click)='EnregistrerCursus()'><em class='icofont icofont-ui-add'></em> Enregistrer</button>
+
+        </div>
+       </div>
+    </app-card>
+
+</div>
+
+

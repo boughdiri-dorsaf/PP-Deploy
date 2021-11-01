@@ -1,0 +1,423 @@
+<div class="row">
+  <div class="col-md-12 col-xl-12">
+    <div class="card widget-card-1">
+      <div class="card-block-small" style='height: 90px;'>
+        <em class="icofont icofont-settings-alt bg-c-yellow card1-icon"></em>
+        <span class="text-c-blue f-w-600">Inscription & Admission</span>
+        <div>
+          <h4  class="f-left">
+            Paramètres
+           </h4><br>
+        </div>
+        <div>
+        <span class="f-left m-t-10 text-muted">
+
+        </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class='row'>
+  <div class="col-lg-12 ">
+
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs  tabs" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link "  [class.active]='tabDomaine' data-toggle="tab" (click)="change('domaine')"  role="tab">Domaine</a>
+        </li>
+        <li class="nav-item">
+            <a  class="nav-link" [class.active]='tabSpecialite'  fragment='profile1' (click)="change('specialite')" data-toggle="tab"   role="tab">Specialité</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" [class.active]='tabNiveau'  data-toggle="tab" (click)="change('niveau')" role="tab">Niveau</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" [class.active]='tabScore'  data-toggle="tab" (click)="change('Score')" role="tab">Score</a>
+      </li>
+
+    </ul>
+    <!-- Tab panes -->
+    <div class="tab-content tabs card-block">
+        <div class="tab-pane " [class.active]='tabDomaine' id="Domaine" role="tabpanel">
+          <div  class="col-md-12 ">
+            <app-card  [title]="" [cardClass]="'project-task'" [blockClass]="'p-b-10'">
+              <h4 style='font-weight: 500 ;font-size: 22px;' class='text-center'>Liste des Domaines</h4>
+              <button class="btn btn-success btn-md " style='margin-bottom: 2%;margin-left: 74%;' (click)='openModalDomaine(content)' ><em class="icofont icofont-ui-add"></em> &nbsp;&nbsp;&nbsp;Ajouter </button>
+
+              <div class="table-responsive">
+                <table class="table table-hover" style='    width: 77%;
+                display: table;
+                margin-right: auto;
+                margin-left: auto;
+                margin-bottom: 1rem;
+                color: #212529;'>
+                  <thead>
+                  <tr>
+                    <th>id</th>
+                    <th  style="    text-align: center;">Domaine</th>
+                    <th style="text-align: right;">Actions</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr *ngFor="let item of lstdomains | paginate: { id: 'Listdomaine',
+                  itemsPerPage: 4,
+                  currentPage: pagedomaine
+                  }">
+                  <td>
+                    <p class="d-inline-block m-r-20">{{item.id_domaine}}</p>
+                  </td>
+                    <td style="    text-align: center;">
+                      <p class="d-inline-block m-r-20" >{{item.libelle}}</p>
+                    </td>
+                    <td style="text-align: right;">
+                      <div ngbDropdown placement="bottom-right" class="d-inline-block" container='body'>
+                                        <button class="btn btn-outline-none"id="dropdownBasic1"ngbDropdownToggle>
+                                          <em class="fa fa-ellipsis-v"></em>
+                                        </button>
+                                        <div
+                                          ngbDropdownMenu
+                                          aria-labelledby="dropdownBasic1">
+
+                                          <button ngbDropdownItem (click)='OpenModalModifierDom(item,modifDomaine)'>
+                                            <em class="icofont icofont-edit-alt"></em>
+                                            Modification
+                                          </button>
+                                          <button ngbDropdownItem (click)='SupprimerDomaine(item)'>
+                                            <em class="icofont icofont-trash"></em>
+                                            Suppression
+                                          </button>
+                                        </div>
+                                      </div>
+
+                    </td>
+
+                  </tr>
+
+                  </tbody>
+                </table>
+                <pagination-controls (pageChange)="pagedomaine = $event"
+                 id="Listdomaine"
+                style="margin-left: auto;
+                margin-right: auto;
+                display: table;"
+                responsive="true"
+                previousLabel="Précédent"
+                nextLabel="Suivant"
+               >
+    </pagination-controls>
+              </div>
+            </app-card>
+          </div>
+        </div>
+        <div class="tab-pane " id="Specialite" [class.active]='tabSpecialite' role="tabpanel" >
+          <div  class="col-md-12 ">
+            <app-card [title]="" [cardClass]="'project-task'" [blockClass]="'p-b-10'">
+              <h4 style='font-weight: 500 ;font-size: 22px;' class='text-center'>Liste des Specialités</h4>
+              <button class="btn btn-success btn-md " style='margin-bottom: 2%;margin-left: 74%;' (click)='openModalSpecialite(content2)'  ><em class="icofont icofont-ui-add"></em> &nbsp;&nbsp;&nbsp;Ajouter </button>
+
+              <div class="table-responsive">
+
+                <table class="table table-hover" style='    display: table;
+                width: 77%;
+                margin-right: auto;
+                margin-left: auto;'>
+                  <thead>
+                  <tr>
+                    <th>id</th>
+                    <th style='text-align: center;'>Domaine</th>
+                    <th style='text-align: center;'>Specialité</th>
+                    <th style='text-align: right;'>Actions</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr *ngFor="let item of lstSpecialite | paginate: { id: 'specialite',
+                  itemsPerPage: 4,
+                  currentPage: pspec
+                  }">
+                  <td>
+                    <p class="d-inline-block m-r-20">{{item.id_specialite}}</p>
+                  </td>
+                    <td  style='text-align: center;'>
+                      <p class="d-inline-block m-r-20" >{{item.libelled}}</p>
+                    </td>
+                    <td style='text-align: center;'>
+                        <p class="d-inline-block m-r-20" >{{item.libelles}}</p>
+                      </td>
+                    <td style="text-align: right;">
+                      <div ngbDropdown placement="bottom-right" class="d-inline-block"  container='body'>
+                        <button class="btn btn-outline-none"id="dropdownBasic1"ngbDropdownToggle>
+                          <em class="fa fa-ellipsis-v"></em>
+                        </button>
+                        <div
+                          ngbDropdownMenu
+                          aria-labelledby="dropdownBasic1">
+
+                          <button ngbDropdownItem (click)='OpenModalModifierSpec(item,modifSpec)'>
+                            <em class="icofont icofont-edit-alt"></em>
+                            Modification
+                          </button>
+                          <button ngbDropdownItem (click)='SupprimerSpecialite(item)' >
+                            <em class="icofont icofont-trash"></em>
+                            Suppression
+                          </button>
+                        </div>
+                      </div>
+                    </td>
+
+                  </tr>
+
+                  </tbody>
+                </table>
+                <pagination-controls  id="specialite"
+                (pageChange)="pspec = $event"
+                style="margin-left: auto;
+                margin-right: auto;
+                display: table;"
+                responsive="true"
+                previousLabel="Précédent"
+                nextLabel="Suivant"
+              >
+    </pagination-controls>
+
+              </div>
+            </app-card>
+          </div>
+        </div>
+        <div class="tab-pane" id="Niveau" [class.active]='tabNiveau' role="tabpanel" #messages1>
+          <div  class="col-md-12 ">
+            <app-card [title]="''" [cardClass]="'project-task'" [blockClass]="'p-b-10'">
+              <h4 style='font-weight: 500 ;font-size: 22px;' class='text-center'>Liste des Niveaux</h4>
+              <button class="btn btn-success btn-md " style='margin-bottom: 2%;margin-left: 74%;' (click)='openModalNiveau(content3)'  ><em class="icofont icofont-ui-add"></em> &nbsp;&nbsp;&nbsp;Ajouter </button>
+
+              <div class="table-responsive">
+                <table class="table table-hover" style='width: 77%;
+                margin-right: auto;
+                margin-left: auto;
+                display: table;'>
+                  <thead>
+                  <tr>
+                    <th>id</th>
+                    <th style='text-align: center;'>Niveau</th>
+                    <th style='text-align: right;'>Actions</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr *ngFor="let item of lstniveau | paginate: { id: 'niveau',
+                  itemsPerPage: 4,
+                  currentPage: pniveau
+                  }">
+                  <td>
+                    <p class="d-inline-block m-r-20">{{item.id_niveau}}</p>
+                  </td>
+                    <td style='text-align: center;'>
+                        <p class="d-inline-block m-r-20" >{{item.libelle}}</p>
+                      </td>
+                    <td style='text-align: right;'>
+                      <div ngbDropdown placement="bottom-right" class="d-inline-block"  container='body'>
+                        <button class="btn btn-outline-none"id="dropdownBasic1"ngbDropdownToggle>
+                          <em class="fa fa-ellipsis-v"></em>
+                        </button>
+                        <div
+                          ngbDropdownMenu
+                          aria-labelledby="dropdownBasic1">
+
+                          <button ngbDropdownItem (click)='openModalModifNiveau(modifNiveau,item)'>
+                            <em class="icofont icofont-edit-alt" ></em>
+                            Modification
+                          </button>
+                          <button ngbDropdownItem (click)='SupprimerNiveau(item)'>
+                            <em class="icofont icofont-trash"></em>
+                            Suppression
+                          </button>
+                        </div>
+                      </div>
+                    </td>
+
+                  </tr>
+
+                  </tbody>
+                </table>
+                <pagination-controls  id="niveau"
+                (pageChange)="pniveau = $event"
+                style="margin-left: auto;
+                margin-right: auto;
+                display: table;"
+                responsive="true"
+                previousLabel="Précédent"
+                nextLabel="Suivant"
+               >
+    </pagination-controls>
+              </div>
+            </app-card>
+          </div>
+        </div>
+
+
+    </div>
+</div>
+
+
+
+</div>
+<ng-template #content let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Ajouter Domaine</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div>
+        <div class="form-group">
+          <label for="Domaine">Libelle</label>
+          <div class="input-group">
+            <input [(ngModel)]="D.libelle" required [minLength]='4' id="Domaine" #DomaineLibelle='ngModel' class="form-control"  type='text'>
+
+          </div>
+          <small id="emailHelp" class="form-text reddanger" *ngIf="DomaineLibelle.invalid && DomaineLibelle.touched ">entrer le nom du Domaine</small>
+
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" [disabled]='DomaineLibelle.invalid' (click)="ajouterDomaine();modal.close('Save click')">Enregistrer</button>
+    </div>
+  </ng-template>
+
+  <ng-template #content2 let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="Specialité">Ajouter Spécialité</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div>
+        <div class="form-group">
+          <label for="Domaine">Libelle</label>
+          <div class="input-group">
+            <input [(ngModel)]="S.libelle" id="Domaine" required #Specialite='ngModel' class="form-control"  type='text'>
+          </div>
+          <small id="emailHelp" class="form-text reddanger" *ngIf="Specialite.invalid && Specialite.touched ">Entrer le nom du Specialite</small>
+
+        </div>
+        <div class="form-group">
+            <label for="Domaine">Domaine</label>
+            <div class="input-group">
+             <select [(ngModel)]="S.id_domaine" required  #specdomaine='ngModel'  class='form-control'>
+               <option *ngFor="let item of lstdomains" [value]="item.id_domaine">{{item.libelle}}</option>
+             </select>
+          </div>
+          <small id="emailHelp" class="form-text reddanger" *ngIf="specdomaine.invalid && specdomaine.touched ">Choisir le domaine du Specialite</small>
+
+          </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" [disabled]='Specialite.invalid || specdomaine.invalid' (click)="ajouterSpecialite();modal.close('Save click')">Enregistrer</button>
+    </div>
+  </ng-template>
+  <ng-template #content3 let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="Niveau">Ajouter Niveau</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div>
+        <div class="form-group">
+          <label for="Niveau">Libelle</label>
+          <div class="input-group">
+            <input [(ngModel)]="N.libelle" required #niv='ngModel' id="Niveau" class="form-control"  type='text'>
+          </div>
+          <small id="emailHelp" class="form-text reddanger" *ngIf="niv.invalid && niv.touched ">Ecrire le Niveau !</small>
+
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" [disabled]='niv.invalid' (click)="ajouterNiveau();modal.close('Save click')">Enregistrer</button>
+    </div>
+  </ng-template>
+  <ng-template #modifNiveau let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="Niveau">Modifier Niveau</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div>
+        <div class="form-group">
+          <label for="Niveau">Libelle</label>
+          <div class="input-group">
+            <input [(ngModel)]="N.libelle" required #niv='ngModel' id="Niveau" class="form-control"  type='text'>
+          </div>
+          <small id="emailHelp" class="form-text reddanger" *ngIf="niv.invalid && niv.touched ">Ecrire le Niveau !</small>
+
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" [disabled]='niv.invalid' (click)="EnregistrerNiveau();modal.close('Save click')">Enregistrer</button>
+    </div>
+  </ng-template>
+  <ng-template #modifSpec let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="Specialité">Modifier Spécialité</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div>
+        <div class="form-group">
+          <label for="Domaine">Libelle</label>
+          <div class="input-group">
+            <input [(ngModel)]="S.libelle" id="Domaine" required #Specialite='ngModel' class="form-control"  type='text'>
+          </div>
+          <small id="emailHelp" class="form-text reddanger" *ngIf="Specialite.invalid && Specialite.touched ">Entrer le nom du Specialite</small>
+
+        </div>
+        <div class="form-group">
+            <label for="Domaine">Domaine</label>
+            <div class="input-group">
+             <select [(ngModel)]="S.id_domaine" required  #specdomaine='ngModel'  class='form-control'>
+               <option *ngFor="let item of lstdomains" [value]="item.id_domaine">{{item.libelle}}</option>
+             </select>
+          </div>
+          <small id="emailHelp" class="form-text reddanger" *ngIf="specdomaine.invalid && specdomaine.touched ">Choisir le domaine du Specialite</small>
+
+          </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" [disabled]='Specialite.invalid || specdomaine.invalid' (click)="EnregistrerSpec();modal.close('Save click')">Enregistrer</button>
+    </div>
+  </ng-template>
+  <ng-template #modifDomaine let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Modifier Domaine</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div>
+        <div class="form-group">
+          <label for="Domaine">Libelle</label>
+          <div class="input-group">
+            <input [(ngModel)]="D.libelle" required [minLength]='4' id="Domaine" #DomaineLibelle='ngModel' class="form-control"  type='text'>
+
+          </div>
+          <small id="emailHelp" class="form-text reddanger" *ngIf="DomaineLibelle.invalid && DomaineLibelle.touched ">entrer le nom du Domaine</small>
+
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" [disabled]='DomaineLibelle.invalid' (click)="EnregistrerDom();modal.close('Save click')">Enregistrer</button>
+    </div>
+  </ng-template>

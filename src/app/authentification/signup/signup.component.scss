@@ -1,0 +1,26 @@
+.smallimg{
+    height: 25px;
+    width: 25px;
+}
+.animphases{
+    transition: all 2.3s;
+}
+.animephase2{
+    transition: all 5.3s;
+}
+.common-img-bg{
+    background-image: linear-gradient(to bottom right, #ffcb0d, #71CCD4,#1B6AB1); 
+}
+.ng-invalid:not(form)  {
+   border-left: 5px solid #c52828; /* red */
+ }
+ .text-muted {
+   color: #e73030 !important;
+   margin-left: 5px;
+}
+.form-check-label{
+    color:black;
+}
+div >.swal-title {
+    margin-top: -6% !important;
+  }

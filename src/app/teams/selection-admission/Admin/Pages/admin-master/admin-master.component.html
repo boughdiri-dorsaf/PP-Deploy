@@ -1,0 +1,225 @@
+<div class="row">
+    <div class="col-md-12 col-xl-12">
+      <div class="card widget-card-1">
+        <div class="card-block-small" style='height: 90px;'>
+          <em class="icofont icofont-id bg-c-blue card1-icon"></em>
+          <span class="text-c-blue f-w-600">Inscription & Admission</span>
+          <div>
+          <h4 class="f-left m-t-10 text-muted">
+            Liste des admins
+          </h4>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+
+
+      <div [hidden]='tableresponsable' class="col-md-12 col-xl-12">
+        <app-card [title]="" [cardClass]="'project-task'" [blockClass]="'p-b-10'">
+          <button class='btn btn-success' (click)='tableresponsable=true;ajoutresponsable=false' style="margin-bottom: 2%;margin-left: 80%;"><em class="ti-plus"></em> Ajouter</button>
+          <div class="table-responsive">
+            <table class="table table-hover">
+              <thead>
+              <tr>
+
+                <th>Nom & prenom</th>
+                <th>Email</th>
+                <th>Qualite</th>
+                <th>Actions</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr *ngFor="let item of lstres | paginate: { id: 'ListResponsable',
+              itemsPerPage: 4,
+              currentPage: p
+              }">
+              <td>
+                <p class="d-inline-block m-r-20">{{item.prenom+" "+item.nom}}</p>
+              </td>
+
+                <td>
+                  <div class="task-contain">
+                    <p class="d-inline-block m-l-20">{{item.email}}</p>
+                  </div>
+                </td>
+                <td>
+                  <p class="d-inline-block m-r-20">{{item.qualite}}</p>
+                </td>
+                <td>
+                  <div ngbDropdown placement="bottom-right" class="d-inline-block" >
+                    <button class="btn btn-outline-none"id="dropdownBasic1"ngbDropdownToggle>
+                      <em class="fa fa-ellipsis-v"></em>
+                    </button>
+                    <div
+                      ngbDropdownMenu
+                      aria-labelledby="dropdownBasic1">
+                      <button ngbDropdownItem>
+                        <em class="icofont icofont-eye-alt"></em>
+                        Détails
+                      </button>
+                      <button ngbDropdownItem>
+                        <em class="icofont icofont-ui-add"></em>
+                        Classe
+                      </button>
+                    </div>
+                  </div>
+
+                </td>
+
+              </tr>
+
+              </tbody>
+            </table>
+            <pagination-controls (pageChange)="p = $event"
+            id="ListResponsable"
+           style="margin-left: auto;
+           margin-right: auto;
+           display: table;"
+           responsive="true"
+           previousLabel="Précédent"
+           nextLabel="Suivant"
+          ></pagination-controls>
+          </div>
+        </app-card>
+      </div>
+      <div [hidden]='ajoutresponsable' class="col-md-12 col-xl-8" style="display: table;margin-left: auto;margin-right: auto;">
+          <app-card [title]="'Ajouter Responsable'" [cardClass]="'project-task'" [blockClass]="'p-b-10'">
+              <div class="container">
+                  <div class="row">
+                    <div class="col-sm">
+                      <div class="form-group">
+                          <label for="exampleInputEmail1">Nom</label>
+                          <input [(ngModel)]="U.nom" required #nom='ngModel' type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Entrer ">
+
+                          <small id="emailHelp" class="form-text reddanger" *ngIf="nom.invalid && nom.touched ">Vous devez saisir le nom du Responsable</small>
+                        </div>
+                    </div>
+                    <div class="col-sm">
+
+                    </div>
+
+                  </div>
+                </div>
+                <div class="container">
+
+                  <div class="row">
+                    <div class="col-sm">
+                      <div class="form-group">
+                          <label for="exampleInputEmail1">Prenom :</label>
+                          <input [(ngModel)]="U.prenom" required #prenom='ngModel' type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="">
+                          <small id="emailHelp" class="form-text reddanger" *ngIf="prenom.invalid && prenom.touched ">Vous devez saisir le nom du Responsable</small>
+                        </div>
+                    </div>
+                    <div class="col-sm">
+
+                    </div>
+
+                  </div>
+                </div>
+                <div class="container">
+                  <div class="row">
+                    <div class="col-sm">
+                      <div class="form-group">
+                          <label for="exampleInputEmail1">Cin</label>
+                          <input type="text" [(ngModel)]="U.cin" name="cin" maxlength="8" minlength="8" [required]="num_passport.value == ''" #cin="ngModel" class="form-control" placeholder="Cin" size="8">
+                          <small class="form-text text-muted text-left reddanger" *ngIf="cin.touched && !cin.valid && cin.errors.maxlength && cin.errors.minlength">Entrez cin valid !</small>
+                     </div>
+                    </div>
+                    <div class="col-sm">
+
+                    </div>
+
+                  </div>
+                </div>
+                <div class="container">
+                  <div class="row">
+                    <div class="col-sm">
+                      <div class="form-group">
+                          <label for="exampleInputEmail1">Date Naissance :</label>
+                          <input [(ngModel)]="U.date_naissance" required  #date_naissance='ngModel' type="date" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="">
+
+                          <small id="emailHelp" class="form-text reddanger" *ngIf="date_naissance.invalid && date_naissance.touched ">Vous devez saisir la date de naissance du Responsable</small>
+                        </div>
+                    </div>
+                    <div class="col-sm">
+
+                    </div>
+
+                  </div>
+                </div>
+                <div class="container">
+                  <div class="row">
+                    <div class="col-sm">
+                      <div class="form-group">
+                          <label for="exampleInputEmail1">Genre :</label>
+                          <select #sexe='ngModel' required class='form-control' [(ngModel)]="U.sexe">
+                              <option value="Masculin"> Masculin</option>
+                              <option value="Feminin">Feminin </option>
+                          </select>
+
+                        </div>
+                    </div>
+                    <div class="col-sm">
+
+                    </div>
+
+                  </div>
+                </div>
+                <div class="container">
+                  <div class="row">
+                    <div class="col-sm">
+                      <div class="form-group">
+                          <label for="exampleInputEmail1">Num Passport :</label>
+                          <input #num_passport='ngModel' required [(ngModel)]="U.num_passport"  type="number" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="">
+
+                          <small id="emailHelp" class="form-text reddanger" *ngIf="num_passport.invalid  && cin.invalid && num_passport.touched">Vous devez saisir le numéro du passport du Responsable</small>
+                        </div>
+                    </div>
+                    <div class="col-sm">
+
+                    </div>
+
+                  </div>
+                </div>
+                <div class="container">
+                  <div class="row">
+                    <div class="col-sm">
+                      <div class="form-group">
+                          <label for="exampleInputEmail1">Email :</label>
+                          <input #email='ngModel' required [(ngModel)]="U.email"  type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="">
+
+                          <small id="emailHelp" class="form-text reddanger" *ngIf="email.invalid && email.touched && email.errors?.patternEmail">Vous devez saisir l'email du Responsable</small>
+                        </div>
+                    </div>
+                    <div class="col-sm">
+
+                    </div>
+
+                  </div>
+                </div>
+                <div class="container">
+                  <div class="row">
+                    <div class="col-sm">
+                      <div class="form-group">
+                          <label for="exampleInputEmail1">Mot de Passe :</label>
+                          <input #password='ngModel' required [(ngModel)]="U.password"  type="password" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="">
+
+                          <small id="emailHelp" class="form-text reddanger" *ngIf="password.invalid  && password.touched && password.errors?.pattern">Vous devez saisir un mot de passe valide !</small>
+                        </div>
+                    </div>
+                    <div class="col-sm">
+
+                    </div>
+
+                  </div>
+                </div>
+
+                <div style='margin-top: 5%;margin-bottom: 3%;margin-left: 66%;' class='row'>
+                  <button class='btn btn-danger' style='margin-bottom: 4%;margin-right: 3%;'(click)='tableresponsable=false;ajoutresponsable=true'>Annuler</button>
+                  <button class='btn btn-success' style='margin-bottom: 4%;' (click)='ajouterresponsable()'>Ajouter</button>
+                </div>
+          </app-card>
+      </div>
+    </div>

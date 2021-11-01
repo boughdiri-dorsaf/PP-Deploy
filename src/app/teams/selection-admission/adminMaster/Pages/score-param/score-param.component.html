@@ -1,0 +1,178 @@
+<app-card [title]="'Calcul Score'" [cardClass]="'project-task'" [blockClass]="'p-b-10'">
+    <div class="container">
+
+
+      <div class='row'>
+        <table class='table table-striped'>
+          <thead>
+            <tr>
+              <th>Redoublement</th>
+              <th>Coefficient</th>
+
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>0</td>
+
+              <td> <input type='text' id='RED0'   class='form-control'[(ngModel)]="Score.Malus.RED0"></td>
+            </tr>
+            <tr>
+              <td>1</td>
+
+              <td><input type='text' id='RED0'   class='form-control'[(ngModel)]="Score.Malus.RED1"></td>
+            </tr>
+            <tr>
+              <td>2</td>
+
+              <td><input type='text' id='RED0'  class='form-control'[(ngModel)]="Score.Malus.RED2"></td>
+            </tr>
+            <tr>
+              <td>3</td>
+
+              <td><input type='text' id='RED0'  class='form-control'[(ngModel)]="Score.Malus.RED3"></td>
+            </tr>
+            <tr>
+              <td>4</td>
+
+              <td> <input type='text' id='RED0'  class='form-control'[(ngModel)]="Score.Malus.RED4"></td>
+            </tr>
+          </tbody>
+        </table>
+        </div>
+      <label class='soustitre' class="title">Bonus de Session</label>
+      <div class="row">
+        <div class="col-sm">
+          <div class="form-group">
+            <label for="exampleInputEmail1">Specifier le nombre des points Acqueri si l'etudiant est admis au cours du session principale</label>
+           <input type='number' class='form-control' [(ngModel)]="Score.BnS" [max]='99' >
+          </div>
+        </div>
+        <div class="col-sm">
+
+        </div>
+
+
+      </div>
+      <label class="title">Bonus Mention</label>
+      <div class="row">
+        <div class="col-sm">
+          <div class="form-group">
+            <label class='soustitre' for="exampleInputEmail1">Nombre des points si Passable : </label>
+          </div>
+        </div>
+        <div class="col-sm">
+            <input type='number' class='form-control' [max]='99' [(ngModel)]="Score.BnM.Pass">
+
+        </div>
+        <div class="col-sm">
+
+        </div>
+
+
+      </div>
+      <div class="row">
+        <div class="col-sm">
+          <div class="form-group">
+            <label class='soustitre'  for="exampleInputEmail1">Nombre des points si Assez Bien : </label>
+          </div>
+        </div>
+        <div class="col-sm">
+           <input type='number' class='form-control' [max]='99' [(ngModel)]="Score.BnM.AssB">
+
+        </div>
+        <div class="col-sm"></div>
+      </div>
+      <div class="row">
+        <div class="col-sm">
+          <div class="form-group">
+            <label class='soustitre' for="exampleInputEmail1">Nombre des points si Bien : </label>
+          </div>
+        </div>
+        <div class="col-sm">
+           <input type='number' class='form-control' [max]='99' [(ngModel)]="Score.BnM.Bien">
+
+        </div>
+        <div class="col-sm"></div>
+      </div>
+      <div class="row">
+        <div class="col-sm">
+          <div class="form-group">
+            <label class='soustitre' for="exampleInputEmail1">Nombre des points si Trés Bien :</label>
+          </div>
+        </div>
+        <div class="col-sm">
+           <input type='number' class='form-control' [max]='99' [(ngModel)]="Score.BnM.TBien">
+
+        </div>
+        <div class="col-sm"></div>
+      </div>
+      <label class='title'>Bonus Crédit</label>
+      <div class="row">
+        <div class="col-sm">
+          <div class="form-group">
+            <label class='soustitre' for="exampleInputEmail1">Coefficient :</label>
+           <input type='number' class='form-control' [max]='99' [(ngModel)]="Score.BC" >
+          </div>
+        </div>
+        <div class="col-sm">
+            <label class='soustitre' style='font-weight: 700;'>Formule Calcule</label>
+            <p>BCr=[Cr(Annee1)+Cr(Annee2)...+Cr(Annee3)]*Coefficient</p>
+          </div>
+
+      </div>
+      <label class='title'>Coefficient des Moyennes</label>
+      <div class="row">
+        <div class="col-sm">
+          <div class="form-group">
+            <label class='soustitre' for="exampleInputEmail1">Coefficient des années universitaires :</label>
+           <input type='number' class='form-control' [max]='99' [(ngModel)]="Score.CdM">
+          </div>
+        </div>
+        <div class="col-sm">
+
+          </div>
+
+      </div>
+      <div class="row">
+        <div class="col-sm">
+          <div class="form-group">
+            <label class='soustitre' for="exampleInputEmail1">Coefficient 5 semestre :</label>
+           <input type='number' class='form-control' [max]='99' [(ngModel)]="Score.sem5">
+          </div>
+        </div>
+        <div class="col-sm">
+
+          </div>
+
+      </div>
+      <div class="row">
+        <div class="col-2">
+          <div class="form-group">
+            <label class='soustitre' for="exampleInputEmail1">Inclure PFE :</label>
+
+          </div>
+        </div>
+        <div class="col-1">
+          <input type='checkbox' style='height: 32px;width: 19px;'  [(ngModel)]="includePFE">
+          </div>
+
+      </div>
+      <div class="row" *ngIf="includePFE">
+        <div class="col-sm">
+          <div class="form-group">
+            <label class='soustitre' for="exampleInputEmail1">PFE :</label>
+           <input type='number' class='form-control' [max]='99' [(ngModel)]="Score.pfe">
+          </div>
+        </div>
+        <div class="col-sm">
+
+          </div>
+
+      </div>
+
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" (click)="enregistrerScore()">Enregistrer</button>
+    </div>
+  </app-card>

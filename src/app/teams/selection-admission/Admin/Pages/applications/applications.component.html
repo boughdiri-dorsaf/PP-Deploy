@@ -1,0 +1,140 @@
+<div class="row">
+  <div class="col-md-12 col-xl-12">
+    <div class="card widget-card-1">
+      <div class="card-block-small" style='height: 90px;'>
+        <em class="icofont icofont-briefcase bg-c-yellow card1-icon"></em>
+        <span class="text-c-blue f-w-600">Inscription & Admission</span>
+        <div>
+        <h4 class="f-left m-t-10 ">
+          Liste des Applications Master
+        </h4>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class='row'>
+  <div  class="col-md-12 col-xl-12">
+    <app-card [title]="'Liste des Applications'" [cardClass]="'project-task'" [blockClass]="'p-b-10'">
+        <div class="container">
+            <div class="row">
+              <div class="col-sm">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Veuillez Selectionner un Master : </label>
+                    <select [(ngModel)]="selectedmaster" (change)='selectedmasterresult()' class="form-control"  >
+                        <option *ngFor="let item of lstmasters"  [value]='item.id_master'>{{item.nom}} </option>
+                    </select>
+
+                  </div>
+              </div>
+              <div class="col-sm">
+
+              </div>
+              <div class="col-sm">
+
+              </div>
+            </div>
+          </div>
+      <div class="table-responsive">
+        <table class="table table-hover table-striped">
+          <thead>
+          <tr>
+            <th>#</th>
+            <th>Date Application</th>
+            <th>Master</th>
+            <th>Etudiant</th>
+            <th>Etat</th>
+            <th>Score</th>
+            <th>Actions</th>
+          </tr>
+          </thead>
+          <tbody>
+            <ng-container *ngIf="refresh" >
+          <ng-container *ngFor="let item of Mastersapps  | paginate: { id: 'app',
+          itemsPerPage: 4,
+          currentPage: p
+          }" >
+
+                 <tr >
+                  <td>{{item.id_demande}}</td>
+                  <td>{{item.date_inscrit | date}}</td>
+                  <td>{{item.nomMaster}}</td>
+                  <td>{{item.prenom+' '+item.nom}}</td>
+                  <td>
+                    <ng-container *ngIf="item.edmlibelle=='Refuser'" >
+                      <p style='color:red'>Réfusé</p>
+                    </ng-container>
+                    <ng-container *ngIf="item.edmlibelle=='Accepter'" >
+                      <p style='color:rgb(63, 201, 58)'>Accepté</p>
+                    </ng-container>
+                    <ng-container *ngIf="item.edmlibelle=='En Cours'" >
+                      <p style='color:rgb(240, 171, 42)'>En Attente</p>
+                    </ng-container>
+                  </td>
+                  <td>{{calculerScore(item).toFixed(2)}}</td>
+                  <td>
+                    <div ngbDropdown placement="bottom-right" class="d-inline-block" >
+                      <button class="btn btn-outline-none"id="dropdownBasic1"ngbDropdownToggle>
+                        <em class="fa fa-ellipsis-v"></em>
+                      </button>
+                      <div
+                        ngbDropdownMenu
+                        aria-labelledby="dropdownBasic1">
+                        <button ngbDropdownItem (click)='ChangerEtatDemandeMaster(item,1)'>
+                          <em class="icofont icofont-check-circled"></em>
+                          Accepter
+                        </button>
+                        <button ngbDropdownItem (click)='ChangerEtatDemandeMaster(item,3)'>
+                          <em class="icofont icofont-spinner"></em>
+                          En Cours
+                        </button>
+                        <button ngbDropdownItem (click)='ChangerEtatDemandeMaster(item,2)'>
+                          <em class="icofont icofont-ban"></em>
+                          Refuser
+                        </button>
+
+                      </div>
+                    </div>
+                  </td>
+                 </tr>
+                </ng-container>
+
+          </ng-container>
+          </tbody>
+        </table>
+        <pagination-controls  id="app"
+        (pageChange)="p = $event"
+            style="margin-left: auto;
+            margin-right: auto;
+            display: table;"
+            responsive="true"
+            previousLabel="Précédent"
+            nextLabel="Suivant"
+           >
+</pagination-controls>
+
+      </div>
+    </app-card>
+  </div>
+</div>
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="Niveau">Informations Application</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div>
+      <div class="form-group">
+        <label for="Niveau">Libelle</label>
+        <div class="input-group">
+          <input  id="Niveau" class="form-control"  type='text'>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Enregistrer</button>
+  </div>
+</ng-template>

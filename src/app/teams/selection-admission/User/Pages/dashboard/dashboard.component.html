@@ -1,0 +1,134 @@
+<div class="row">
+  <div class="col-md-12 col-xl-12">
+    <div class="card widget-card-1">
+      <div class="card-block-small" style='height: 90px;'>
+        <em class="icofont icofont-notebook bg-c-blue card1-icon"></em>
+        <span class="text-c-blue f-w-600">{{title}}</span>
+        <div>
+         <h4 class="f-left">Liste des masters</h4>
+        <span class="f-left m-t-10 text-muted">
+        </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+    <div class="col-md-12 col-xl-12">
+      <app-card [title]="" [cardClass]="'project-task'" [blockClass]="'p-b-10'">
+
+        <div class='row' style='margin-left:5%;margin-bottom:5%;'>
+          <div class='col-6'>
+            <input class="form-check-input"  (click)='filtermasters("Mes Applications")' value='Mes Applications' [(ngModel)]="optionrech"  type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+             <label class="form-check-label radio-master-label" for="flexRadioDefault1">
+               Masters postulés
+             </label>
+          </div>
+            <div class='col-6'>
+              <input class="form-check-input" (click)='filtermasters("Liste Totale")' [(ngModel)]="optionrech" value='Liste Totale'   type="radio"  name="flexRadioDefault" id="flexRadioDefault3">
+              <label class="form-check-label radio-master-label" for="flexRadioDefault3">
+                Tous les masters
+              </label>
+            </div>
+
+        </div>
+        <div class="table-responsive">
+          <table class="table table-hover">
+            <thead>
+            <tr>
+              <th>Master</th>
+              <th>Date finale</th>
+              <th>Etablissement</th>
+              <th>Etat</th>
+              <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let item of lstmasters | paginate: { id: 'masters',
+            itemsPerPage: 4,
+            currentPage: p
+            }">
+              <td>
+                <div class="task-contain">
+
+                  <p class="d-inline-block m-l-20">{{item.nom}}</p>
+                </div>
+              </td>
+              <td>
+                <p class="d-inline-block m-r-20">{{item.date_fin | date:'d-M-y'}}</p>
+              </td>
+              <td>
+                <p class="d-inline-block m-r-20">{{item.etablissement}}</p>
+              </td>
+              <td>
+                <ng-container *ngIf="item.etat=='Pas D application' && !isexpired(item.date_fin)" >
+                  <p class="d-inline-block m-r-20" style='color:green'>Ouvert</p>
+                </ng-container>
+                <ng-container *ngIf="item.etat=='En Cours'" >
+                  <p class="d-inline-block m-r-20" style='color:rgb(233, 115, 37)'>En attente </p>
+                </ng-container>
+                <ng-container *ngIf="item.etat=='Présélectionné'" >
+                  <p class="d-inline-block m-r-20" style='color:rgba(23, 26, 238, 0.603)'>Présélectionné </p>
+                </ng-container>
+                <ng-container *ngIf="isexpired(item.date_fin) && item.etat!='En Cours'" >
+                  <p class="d-inline-block m-r-20" style='color:rgb(245, 27, 11)'>Expiré</p>
+                </ng-container>
+
+              </td>
+              <td>
+                <ng-container *ngIf="item.etat=='Pas D application'&& !isexpired(item.date_fin)" >
+                  <button class='btn btn-primary'  (click)='open(content,item)'>Postuler</button>
+                </ng-container>
+                <ng-container *ngIf="isexpired(item.date_fin) && item.etat!='En Cours'" >
+                  <button class='btn btn-secondary' [disabled]='true'  >Postuler</button>
+                </ng-container>
+                <ng-container *ngIf="item.etat=='En Cours'" >
+                  <button class='btn btn-secondary' [disabled]='true'  >Postuler</button>
+                </ng-container>
+
+
+              </td>
+            </tr>
+
+            </tbody>
+          </table>
+          <pagination-controls *ngIf="lstmasters"  previousLabel="Précédent"
+          nextLabel="Suivant"
+          style="margin-left: auto;
+          margin-right: auto;
+          display: table;"
+          id='masters'
+          responsive="true" (pageChange)="p = $event"></pagination-controls>
+        </div>
+      </app-card>
+
+    </div>
+  </div>
+  <ng-template #content let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="Application">Postuler au master</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div>
+
+        <div class="form-group">
+          <label for="Domaine">Veuillez ajouter une <b>lettre de motivation</b> : </label>
+          <div class="input-group">
+            <input id="Domaine" accept="application/pdf"   class="form-control-file"  type='file'(change)="imageselect()" id='img'>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="form-check" style='margin:4%;'>
+      <input class="form-check-input" type="checkbox" [(ngModel)]="conditions" value="" id="flexCheckDefault">
+      <label class="form-check-label" for="flexCheckDefault">
+        Je certifie sur l'honneur avoir vérifié <b>les renseignements</b> fournis ci-dessus et déclare qu'à <b>ma connaissance</b>, ils sont exacts.
+      </label>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" [disabled]='!conditions' (click)="appliquer();modal.close('Save click')">Postuler</button>
+    </div>
+  </ng-template>

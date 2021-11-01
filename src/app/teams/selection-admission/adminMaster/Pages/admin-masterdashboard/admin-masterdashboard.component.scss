@@ -1,0 +1,12 @@
+.score-point{
+  cursor: pointer;
+}
+.score-point:hover{
+  color: blue;
+}
+.selected{
+  color:blue !important;
+}
+.unselected{
+  color:grey ;
+}

@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<body class="fix-menu common-img-bg">
+  <section class="login p-fixed d-flex text-center bg-primary common-img-bg" style='overflow: auto;position: relative;'>
+    <div class="container">
+      <div class="row">
+        <!--<div *ngIf='!errormsg' class="alert alert-danger animephase2" [style.opacity]="errormsg ? '0' : '1'"
+          [style.visibility]="errormsg ? 'hidden' : 'visible'" style="right: 1px;position: absolute">
+          <button (click)='errormsg=false' type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <em class="icofont icofont-close-line-circled"></em>
+          </button>
+          <strong>Error : </strong><code> {{msg}}</code>
+        </div> -->
+        <div class="col-sm-12">
+          <div class="login-card card-block auth-body mr-auto ml-auto">
+            <div class="md-float-material">
+              <div class="text-center">
+                <img src="assets/images/iset.png" alt="logo.png">
+              </div>
+              <div *ngIf='secondphase ' [style.opacity]="firstphase ? '0' : '1'"
+                [style.visibility]="firstphase ? 'hidden' : 'visible'" class="auth-box animphases">
+                <div class="row m-b-20">
+                  <div class="col-md-12">
+                    <h2 class="text-center text-primary" >INSCRIPTION</h2><br>
+                    <h4 class="text-left" style="color: #666666;    font-size: 17px;">Informations personnelles</h4>
+                  </div>
+                </div>
+                <hr />
+                <form #ngForm="ngForm" (ngSubmit)="FirsttoSecond()">
+
+                  <div class="form-group">
+                    <input type="text" [(ngModel)]="userPlatform.nom"  required name="nom" #nom="ngModel"  class="form-control" placeholder="Nom" maxlength="40">
+                    <span class="form-text text-muted text-left" *ngIf="nom.touched && !nom.valid">Entrez votre nom !</span>
+                  </div>
+                  <div class="form-group">
+                    <input type="text" [(ngModel)]="userPlatform.prenom"  required name="prenom" #prenom="ngModel" class="form-control" placeholder="Prenom" maxlength="40">
+                    <span class="form-text text-muted text-left" *ngIf="prenom.touched && !prenom.valid">Entrez votre prenom !</span>
+                  </div>
+                  <div class="form-group">
+                    <input type="text" [(ngModel)]="userPlatform.cin" #cin="ngModel" pattern="[0-9]+"  name="cin" maxlength="8" minlength="8" [required]="num_passport.value == ''" class="form-control" placeholder="Cin" size="8">
+                    <span class="form-text text-muted text-left" *ngIf="cin.touched && cin.invalid || cin.errors?.maxlength || cin.errors?.minlength ">Entrez cin valide !</span>
+                  </div>
+                  <div class="form-group">
+                    <input type="text" [(ngModel)]="userPlatform.num_passport" name="num_passport" #num_passport="ngModel"  pattern="[0-9]+" maxlength="9" minlength="9" class="form-control" placeholder="Passport" size="9">
+     <span class="form-text text-muted text-left" *ngIf="num_passport.touched && num_passport.invalid || num_passport.errors?.maxlength || num_passport.errors?.minlength">Entrez numero passport valide !</span>
+                  </div>
+                  <div class="form-group">
+                    <input type="date" [max]='maxdateN' [min]='mindateN' class="form-control" required [(ngModel)]="userPlatform.date_naissance" name="date_naissance" #date_naissance ="ngModel" placeholder="Date Naissance">
+                    <span class="form-text text-muted text-left" *ngIf="date_naissance.touched && !date_naissance.valid">Entrez votre date de naissance !</span>
+                  </div>
+
+                  <div class="form-group">
+                    <div class='row'>
+                      <div class='col-4'>
+
+                        <label class='form-check-label'>
+                          Genre :
+                        </label>
+                       </div>
+                      <div class='col-4'>
+                        <input class="form-check-input" #genre="ngModel"  type="radio" value='Homme' required [(ngModel)]="userPlatform.sexe" name="flexRadioDefault" id="flexRadioDefault2">
+                        <label class="form-check-label" for="flexRadioDefault2">
+                          Homme
+                        </label>
+                       </div>
+                           <div class='col-4'>
+                            <input class="form-check-input" #genre="ngModel" value='Femme' type="radio" required [(ngModel)]="userPlatform.sexe" name="flexRadioDefault" id="flexRadioDefault1">
+                            <label class="form-check-label" for="flexRadioDefault1">
+                              Femme
+                            </label>
+                           </div>
+                    </div>
+
+                    <span class="md-line"></span>
+                  </div>
+
+                <div class="row m-t-30">
+                  <div class="col-md-12">
+                    <button type="submit"class="btn btn-primary btn-md btn-block waves-effect text-center m-b-20" [disabled]="!ngForm.valid || genre.invalid ">Suivant</button>
+                  </div>
+                </div>
+              </form>
+                <hr/>
+                <div class="row">
+                  <div class="col-md-10">
+                    <p class="text-inverse text-left">Copyright &copy; 2021. I.S.E.T Rades</p>
+                    <p class="text-inverse text-left m-b-0">
+                       Avez-vous un compte ?
+                      <a style='color:lightseagreen'[routerLink]="['/auth']"> Se connecter</a></p>
+
+                  </div>
+                  <div class="col-md-2">
+                    <img class='smallimg' src="assets/images/iset.png" alt="small-logo.png">
+                  </div>
+                </div>
+
+              </div>
+              <div *ngIf='firstphase ' [style.opacity]="secondphase ? '0' : '1'"
+                [style.visibility]="secondphase ? 'hidden' : 'visible'" class="auth-box animphases">
+                <div class="row m-b-20">
+                  <div class="col-md-12">
+                    <h4 class="text-left" style="color: #666666;">Compte</h4>
+                  </div>
+                </div>
+                <hr />
+                <form #ngForm2="ngForm">
+
+                <div class="form-group">
+                  <input type="email" [(ngModel)]="userPlatform.email" required name="email" pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" #email="ngModel" class="form-control" placeholder="Adresse email">
+                  <span class="form-text text-muted text-left" *ngIf="email.touched && !email.valid && email.errors?.pattern">Entrez une adresse mail valide !</span>
+                </div>
+
+                <div class="form-group">
+                  <input type="password" required [(ngModel)]="userPlatform.password" name="password" pattern='(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}' #passwordd="ngModel" class="form-control" placeholder="Mot de passe" maxlength="30">
+                  <span class="form-text text-muted text-left" *ngIf="passwordd.touched && !passwordd.valid && passwordd.errors?.pattern">Entrez un mot de passe !</span>
+                </div>
+
+                <div class="form-group">
+                  <input type="password" class="form-control" required [(ngModel)]="confirmpassword" name="confirmpassword" #confirmpasswordd="ngModel"  placeholder="Confirmer mot de passe" maxlength="30">
+                  <span class="form-text text-muted text-left" *ngIf="passwordd.value!=confirmpasswordd.value">mot de passe non valide !</span>
+                </div>
+
+                <div class="row m-b-20">
+                  <div class="col-md-12">
+                    <h4 class="text-left" style="color: #666666;margin-top: 5%;margin-bottom: -5%;">Adresse</h4>
+                  </div>
+                </div>
+                <hr style='margin-bottom: 4%;'/>
+
+                <div class="form-group">
+                    <select class="form-control" [(ngModel)]="userPlatform.pays" required name="pays" #pays="ngModel">
+                         <option *ngFor="let item of lstPays"  [value]="item.id_pays">{{item.libelle_pays}}</option>
+                    </select>
+                  <span class="md-line"></span>
+                </div>
+                <div class="form-group">
+                  <input type="text" class="form-control" [(ngModel)]="userPlatform.rue"  name="rue" #rue="ngModel" placeholder="Rue" maxlength="40">
+                  <span class="form-text text-muted text-left" *ngIf="rue.touched && !rue.valid">Entrez votre adresse !</span>
+                </div>
+                <div class="form-group">
+                  <input type="text" class="form-control" maxlength="8" minlength="4" [(ngModel)]="userPlatform.code_postale"   name="code_postale" #codepostale="ngModel" placeholder="Code postal">
+                  <span class="form-text text-muted text-left" *ngIf="codepostale.touched && !codepostale.valid || codepostale.errors?.maxlength || codepostale.errors?.minlength">Entrez votre code postale !</span>
+                </div>
+
+                  <div class="form-group">
+                    <select name="sexe" [(ngModel)]="userPlatform.id_situation_professionnel" #id_situation_professionnel="ngModel" class="form-control">
+                      <option value="1">Employé(e)</option>
+                      <option value="2">Etudiant(e)</option>
+                      <option value="3">Autre</option>
+                    </select>
+                    <span class="md-line"></span>
+                  </div>
+
+                <div class="row m-t-30">
+                  <div class="col-md-6">
+                    <button type="button" class="btn btn-primary btn-md btn-block waves-effect text-center m-b-20"
+                      (click)='SecondtoFirst()'>Précédent</button>
+                  </div>
+                  <div class="col-md-6">
+                    <button type="submit" class="btn btn-primary btn-md btn-block waves-effect text-center m-b-20"
+                      (click)='open(content)' [disabled]="!ngForm2.valid || passwordd.value!=confirmpasswordd.value || codepostale.invalid ">S'incrire</button>
+                  </div>
+                </div>
+                </form>
+                <hr />
+                <div class="row">
+                  <div class="col-md-10">
+                    <p class="text-inverse text-left">Copyright &copy; 2021. I.S.E.T Rades</p>
+                  </div>
+                  <div class="col-md-2">
+                    <img class='smallimg' src="assets/images/iset.png" alt="small-logo.png">
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <script type="text/javascript" src="assets/js/jquery/jquery.min.js"></script>
+  <script type="text/javascript" src="assets/js/jquery-ui/jquery-ui.min.js"></script>
+  <script type="text/javascript" src="assets/js/popper.js/popper.min.js"></script>
+  <script type="text/javascript" src="assets/js/bootstrap/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="assets/js/jquery-slimscroll/jquery.slimscroll.js"></script>
+  <script type="text/javascript" src="assets/js/modernizr/modernizr.js"></script>
+  <script type="text/javascript" src="assets/js/modernizr/css-scrollbars.js"></script>
+  <script type="text/javascript" src="assets/js/common-pages.js"></script>
+</body>
+
+</html>
+
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h2 class="modal-title" id="Application">Inscription</h2>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div>
+      <h4 class="text-left" style="color: #666666;    font-size: 17px;">Informations personnelles</h4>
+      <div class="mb-3 row">
+        <label for="staticEmail" class="col-sm-4 col-form-label">Nom </label>
+        <div class="col-sm-8">
+          <input type="text" readonly class="form-control-plaintext" id="staticEmail" [value]="userPlatform.nom">
+        </div>
+      </div>
+      <div class="mb-3 row">
+        <label for="staticEmail" class="col-sm-4 col-form-label">Prenom </label>
+        <div class="col-sm-8">
+          <input type="text" readonly class="form-control-plaintext" id="staticEmail" [value]="userPlatform.prenom">
+        </div>
+      </div>
+      <div class="mb-3 row" *ngIf='userPlatform.cin != null'>
+        <label for="staticEmail" class="col-sm-4 col-form-label">Cin </label>
+        <div class="col-sm-8">
+          <input type="text" readonly class="form-control-plaintext" id="staticEmail" [value]="userPlatform.cin">
+        </div>
+      </div>
+
+      <div class="mb-3 row" *ngIf='userPlatform.num_passport != ""'>
+        <label for="staticEmail" class="col-sm-4 col-form-label">Passport </label>
+        <div class="col-sm-8">
+          <input type="text" readonly class="form-control-plaintext" id="staticEmail" [value]="userPlatform.num_passport">
+        </div>
+      </div>
+
+      <div class="mb-3 row">
+        <label for="staticEmail" class="col-sm-4 col-form-label">Date naissance </label>
+        <div class="col-sm-8">
+          <input type="text" readonly class="form-control-plaintext" id="staticEmail" [value]="userPlatform.date_naissance">
+        </div>
+      </div>
+      <div class="mb-3 row">
+        <label for="staticEmail" class="col-sm-4 col-form-label">Email </label>
+        <div class="col-sm-8">
+          <input type="text" readonly class="form-control-plaintext" id="staticEmail" [value]="userPlatform.email">
+        </div>
+      </div>
+      <h4 class="text-left" style="color: #666666;    font-size: 17px;">Adresse</h4>
+      <div class="mb-3 row">
+        <label for="staticEmail" class="col-sm-4 col-form-label">Pays </label>
+        <div class="col-sm-8">
+          <input type="text" readonly class="form-control-plaintext" id="staticEmail" [value]="returnPays(userPlatform.pays)">
+        </div>
+      </div>
+      <div class="mb-3 row" *ngIf='userPlatform.rue != ""'>
+        <label for="staticEmail" class="col-sm-4 col-form-label">Rue </label>
+        <div class="col-sm-8">
+          <input type="text" readonly class="form-control-plaintext" id="staticEmail" [value]="userPlatform.rue">
+        </div>
+      </div>
+      <div class="mb-3 row" *ngIf='userPlatform.code_postale != ""'>
+        <label for="staticEmail" class="col-sm-4 col-form-label">Code postal </label>
+        <div class="col-sm-8">
+          <input type="text" readonly class="form-control-plaintext" id="staticEmail" [value]="userPlatform.code_postale">
+        </div>
+      </div>
+      <div class="mb-3 row">
+        <label for="staticEmail" class="col-sm-4 col-form-label">Situation </label>
+        <div class="col-sm-8">
+          <input type="text" readonly class="form-control-plaintext" id="staticEmail" [value]="returnsituation(userPlatform.id_situation_professionnel)">
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="form-check" style='margin: 3%;'>
+    <input class="form-check-input" type="checkbox" [(ngModel)]="conditions" value="" id="flexCheckDefault">
+    <label class="form-check-label" for="flexCheckDefault">
+      J'ai lu et j'accepte les <a href="/Conditions" target="_blank">conditions d'utilisation</a>
+    </label>
+  </div>
+  <div class="modal-footer">
+
+    <button type="button" class="btn btn-outline-danger" (click)="modal.close('Save click')">Modifier</button>
+    <button type="button" class="btn btn-outline-primary" [disabled]='!conditions' (click)="Register();modal.close('Save click')">S'incrire</button>
+  </div>
+</ng-template>

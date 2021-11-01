@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head> 
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,800" rel="stylesheet">
+</head>
+
+<body class="fix-menu">
+    
+    <section class="login p-fixed d-flex text-center bg-primary common-img-bg">
+        <div style='position: absolute;right: 5px;top: 42px;'>
+
+        </div>
+       
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="login-card card-block auth-body mr-auto ml-auto">
+                        <div class="md-float-material">
+                            <div class="text-center">
+                                <img src="assets/images/iset.png" alt="logo.png">
+                            </div>
+                            <div class="auth-box">
+                                <div class="row m-b-20">
+                                    <div class="col-md-12">
+                                        <h3 class="text-left txt-primary">Connexion</h3>
+                                    </div>
+                                </div>
+                                <hr/>
+                                <div class="form-group">
+                                    <input type="email" [(ngModel)]="email" required name="email" pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" #emaill="ngModel" class="form-control" placeholder="Adresse email">
+                                    <span class="form-text text-muted text-left" *ngIf="emaill.touched && !emaill.valid && emaill.errors?.pattern">Entrez adresse email valid !</span>
+                                  </div>
+                                  <div class="form-group">
+                                    <input type="password" required [(ngModel)]="password" name="password" #passwordd="ngModel" class="form-control" placeholder="Mot de passe">
+                                    <span class="form-text text-muted text-left" *ngIf="passwordd.touched && !passwordd.valid">Entrez password !</span>
+                                  </div>
+                                <div class="row m-t-25 text-left">
+                                    <div class="col-sm-7 col-xs-12">
+                                       
+                                    </div>
+                                    
+                                </div>
+                                <div class="row m-t-30">
+                                    <div class="col-md-12">
+                                        <button type="button" class="btn btn-primary btn-md btn-block waves-effect text-center m-b-20" [disabled]='emaill.invalid || passwordd.invalid' (click)='Login()'>Se connecter</button>
+                                    </div>
+                                </div>
+                                <hr/>
+                                <div class="row">
+                                    <div class="col-md-10">
+                                        
+                                        <p class="text-inverse text-left">Copyright &copy; 2021. I.S.E.T Rades</p>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <img class='smallimg'src="assets/images/iset.png" alt="small-logo.png">
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        
+                    </div>
+                   
+                </div>
+               
+            </div>
+         
+        </div>
+       
+    </section>
+    
+    <script type="text/javascript" src="assets/js/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="assets/js/jquery-ui/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="assets/js/popper.js/popper.min.js"></script>
+    <script type="text/javascript" src="assets/js/bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="assets/js/jquery-slimscroll/jquery.slimscroll.js"></script>
+    <script type="text/javascript" src="assets/js/modernizr/modernizr.js"></script>
+    <script type="text/javascript" src="assets/js/modernizr/css-scrollbars.js"></script>
+    <script type="text/javascript" src="assets/js/common-pages.js"></script>
+</body>
+
+</html>
