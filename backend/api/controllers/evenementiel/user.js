@@ -9,7 +9,7 @@ const mg = mailgun({ apiKey: process.env.MAILGUN_APIKEY, domain: DOMAIN })
 
 const mailer = require('nodemailer');
 const smtp = require('nodemailer-smtp-transport');
-
+//fonction pour recupere toutes les users sans parametre
 module.exports.getUsers = (req, res) => {
 
   connexion.query('select * from user, adresse, situation_professionnel, pays, ville,gouvernerat where user.id_user = adresse.id_user and adresse.pays = pays.id_pays and adresse.ville =ville.id_ville and adresse.gouvernorat_adresse = gouvernerat.id_gouvernerat and user.id_situation_professionnel= situation_professionnel.id_situation_professionnel and id_role=9',
@@ -36,7 +36,9 @@ module.exports.getUsers = (req, res) => {
   )
 };
 
-
+//fonction pour creation d'un utilisateur
+//Permet de verifier si un email existe dans la base de donnees
+//Parametre (nom, prenom,email, password, age, cin, sexe, num_passport, date_naissance,id_role,gouvern_naissance, id_situation_professionnel, verifie)
 module.exports.create = (req, res) => {
   const data = req.body;
   const pass = data.password;
@@ -107,7 +109,8 @@ module.exports.create = (req, res) => {
   });
 };
 
-
+//fonction appeler dans create user
+//Permet d'ajouter les donnees d'adresse dans table adresse
 function createAdresse(data, id_user) {
   connexion.query('INSERT INTO adresse( code_postale, rue, ville, gouvernorat_adresse, pays, id_user) VALUES (?,?,?,?,?,?)',
     [
@@ -120,6 +123,8 @@ function createAdresse(data, id_user) {
     ]
   );
 }
+
+//fonction permet d'afficher tous les donnes d'un user a traver 'ID'
 
 module.exports.getUserByUserId = (req, res, next) => {
   const id_user = req.params.id;
@@ -149,6 +154,7 @@ module.exports.getUserByUserId = (req, res, next) => {
   })
 };
 
+//permet de modifier les dnnees de user par 'ID'
 module.exports.updateUser = (req, res) => {
   const data = req.body;
   const salt = bcrypt.genSaltSync(10);
@@ -205,10 +211,11 @@ function updateAdresse(data) {
   )
 }
 
+//Get info user par email
 module.exports.getUserByUserEmail = (req, res) => {
   const body = req.body;
   connexion.query(
-    'select * from user where email = ? and id_role!=4 and verifie = 1',
+    'select * from user where email = ? and id_role!=4',
     [body.email],
     (errpblm, results) => {
       if (errpblm) {

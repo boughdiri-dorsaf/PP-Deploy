@@ -18,7 +18,7 @@
 
       <div [hidden]='tableresponsable' class="col-md-12 col-xl-12">
         <app-card [title]="" [cardClass]="'project-task'" [blockClass]="'p-b-10'">
-          <button class='btn btn-success' (click)='tableresponsable=true;ajoutresponsable=false' style="margin-bottom: 2%;margin-left: 80%;"><em class="ti-plus"></em> Ajouter</button>
+          <!--<button class='btn btn-success' (click)='tableresponsable=true;ajoutresponsable=false' style="margin-bottom: 2%;margin-left: 80%;"><em class="ti-plus"></em> Ajouter</button>-->
           <div class="table-responsive">
             <table class="table table-hover">
               <thead>
@@ -27,7 +27,6 @@
                 <th>Nom & prenom</th>
                 <th>Email</th>
                 <th>Qualite</th>
-                <th>Actions</th>
               </tr>
               </thead>
               <tbody>
@@ -46,26 +45,6 @@
                 </td>
                 <td>
                   <p class="d-inline-block m-r-20">{{item.qualite}}</p>
-                </td>
-                <td>
-                  <div ngbDropdown placement="bottom-right" class="d-inline-block" >
-                    <button class="btn btn-outline-none"id="dropdownBasic1"ngbDropdownToggle>
-                      <em class="fa fa-ellipsis-v"></em>
-                    </button>
-                    <div
-                      ngbDropdownMenu
-                      aria-labelledby="dropdownBasic1">
-                      <button ngbDropdownItem>
-                        <em class="icofont icofont-eye-alt"></em>
-                        Détails
-                      </button>
-                      <button ngbDropdownItem>
-                        <em class="icofont icofont-ui-add"></em>
-                        Classe
-                      </button>
-                    </div>
-                  </div>
-
                 </td>
 
               </tr>

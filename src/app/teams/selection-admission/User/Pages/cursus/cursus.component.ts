@@ -33,7 +33,7 @@ exist=false;
 lstvilles=[];
 lstclasses=[]
 E:Etudiant={id_situation_etudiant:'',id_departement:0,id_user:0}
-C:Cursus=new Cursus('2019','2018',10,0,'','Principale',2,10,2,1,2,null);
+C:Cursus=new Cursus('2017','2022',10,0,'','Principale',2,10,2,1,2,null);
 
 switch=true;
 lstdomaine=[]
@@ -63,8 +63,8 @@ lstdiplomes=[];
       console.log('diplomes',val)
       this.lstdiplomes=val.results;
     })
-     console.log(this.lstAUdeb); 
-   
+     console.log(this.lstAUdeb);
+
     if(localStorage.getItem('Bacc')!=null){
       this.Bacc=JSON.parse(localStorage.getItem('Bacc'));
     }
@@ -77,14 +77,14 @@ lstdiplomes=[];
       for (let i = 0; i < val.results.length; i++) {
         //@ts-ignore
        this.lstcursus.push(val.results[i])
-        
-      } 
+
+      }
       console.log(this.lstcursus);
       if(this.lstcursus.length!=0)
       {
         this.thereiscursus=true;
       }
-      
+
     })
     this.Etudiant.GetLstSituations().subscribe(val=>{
       console.log("Situations",val)
@@ -96,7 +96,7 @@ lstdiplomes=[];
       //@ts-ignore
       for (let i = 0; i < val.results.length; i++) {
       //@ts-ignore
-       this.lstdomaine.push(val.results[i]); 
+       this.lstdomaine.push(val.results[i]);
       }
       });
       this.PS.getSpecialites().subscribe(val=>{
@@ -104,33 +104,33 @@ lstdiplomes=[];
         //@ts-ignore
       for (let i = 0; i < val.results.length; i++) {
         //@ts-ignore
-        this.lstspecialite2.push(val.results[i]); 
+        this.lstspecialite2.push(val.results[i]);
         }
       });
-    
+
       this.PS.getNiveaux().subscribe(val=>{
         console.log("Niveau",val);
         //@ts-ignore
      for (let i = 0; i < val.results.length; i++) {
       //@ts-ignore
-       this.lstNiveau.push(val.results[i]) 
+       this.lstNiveau.push(val.results[i])
       }
-     
+
      })
     this.id=Number(localStorage.getItem('id'));
     this.E.id_user=this.id
     this.sub=this.Etudiant.getetudiant(Number(localStorage.getItem('id'))).subscribe(
       res=>{
-       
+
         console.log('here');
         console.log(res);
-        
-        //@ts-ignore 
+
+        //@ts-ignore
         if(res.results.length==0){
         this.exist=true;
         this.hasbaccursusG=true;
-        
-       
+
+
         return
         }else{
           console.log('here2');
@@ -140,7 +140,7 @@ lstdiplomes=[];
               this.noBac=false;
               this.idBac=res.results[0].id_bacc
               this.BS.getBacclaureat(this.idBac).subscribe(val=>{
-                this.Bacc=val.results[0];                
+                this.Bacc=val.results[0];
                 const dateStart = moment(val.results[0].annee)
                 var dateEnd = moment()
                 var i =0;
@@ -149,8 +149,9 @@ lstdiplomes=[];
                  while (dateEnd.diff(dateStart, 'years') >= 0) {
                   this.lstAUdeb.push({id:i,nom:dateStart.format('YYYY')})
                   this.lstAUfin.push({id:i,nom:dateStart.format('YYYY')})
+                  console.log(dateStart)
                   i++;
-                  dateStart.add(1, 'year') 
+                  dateStart.add(1, 'year')
                 }
               })
           }
@@ -179,42 +180,42 @@ lstdiplomes=[];
       err=>{
         if(err.ok==false){
           this.exist=true;
-         
+
             this.hasbaccursusG=true;
-          
+
         }
         this.ajouteretudiant();
         location.reload()
-      console.log(err);  
+      console.log(err);
       }
     )
 // this.lstcursus=JSON.parse(localStorage.getItem('lstcursus'))
     //@ts-ignore
 
     this.lstvilles=villes.default;
-   
+
     this.ES.getetablissements().subscribe(val=>{
       console.log("etab",val);
       //@ts-ignore
       for (let i = 0; i < val.results.length; i++) {
         //@ts-ignore
         this.lstetab.push(val.results[i]);
-        
+
       }
-      
-    
+
+
     })
-   
+
     this.DS.getDepartements().subscribe(val=>{
       console.log("departement",val);
       //@ts-ignore
       for (let i = 0; i < val.results.length; i++) {
         //@ts-ignore
         this.lstdep.push(val.results[i]);
-        
+
       }
     })
- 
+
   }
 
   refresh2(){
@@ -225,7 +226,7 @@ this.sub2=this.CS.getCursus(Number(localStorage.getItem('id'))).subscribe(val=>{
   for (let i = 0; i < val.results.length; i++) {
     //@ts-ignore
    this.lstcursus.push(val.results[i])
-    
+
   }
   if(this.lstcursus.length!=0)
   {
@@ -234,7 +235,7 @@ this.sub2=this.CS.getCursus(Number(localStorage.getItem('id'))).subscribe(val=>{
   {
     this.thereiscursus=false;
   }
-  
+
 })
   }
   getspecialties(id){
@@ -247,7 +248,7 @@ this.sub2=this.CS.getCursus(Number(localStorage.getItem('id'))).subscribe(val=>{
    if(val.results[i].id_domaine==id)
   {
      //@ts-ignore
-   this.lstspecialite.push(val.results[i]) 
+   this.lstspecialite.push(val.results[i])
    }
   }
 
@@ -257,30 +258,30 @@ this.sub2=this.CS.getCursus(Number(localStorage.getItem('id'))).subscribe(val=>{
 this.sub.unsubscribe();
 this.sub=this.Etudiant.getetudiant(Number(localStorage.getItem('id'))).subscribe(
   res=>{
-   
+
     //@ts-ignore
     if(res.data[0]==undefined){
     this.exist=true;
-    
+
       this.hasbaccursusG=true;
-    
+
     //@ts-ignore
-   
+
     }
-    
+
   },
   err=>{
-   
+
   }
 )
   }
   ajouteretudiant(){
     console.log('here',this.E)
-  
+
     this.Etudiant.AddEtudiant(this.E).subscribe(
       err=>{console.log(err)},
       data=>{console.log(data)}
-      
+
     );
     localStorage.setItem('Bacc',JSON.stringify(this.Bacc))
     localStorage.setItem('CursusG',JSON.stringify(this.CursusG))
@@ -326,7 +327,7 @@ this.sub=this.Etudiant.getetudiant(Number(localStorage.getItem('id'))).subscribe
       this.CursusG.id_cursusgenerale=this.idCursus;
       this.CGS.UpdatecursusG(this.CursusG)
     }
-    
+
     localStorage.setItem('Bacc',JSON.stringify(this.Bacc))
     localStorage.setItem('CursusG',JSON.stringify(this.CursusG))
     swal('Cursus','Votre cursus a été enregistré avec succés','success')
@@ -336,16 +337,16 @@ this.sub=this.Etudiant.getetudiant(Number(localStorage.getItem('id'))).subscribe
       if(this.lstetab[i].id_etablissement==index){
         return this.lstetab[i].code_etablissement
       }
-       
+
     }
   }
   getdomaine(index){
-   
+
     for (let i = 0; i < this.lstdomaine.length; i++) {
       if(this.lstdomaine[i].id_domaine==index){
         return this.lstdomaine[i].libelle
       }
-      
+
     }
   }
   getspecialite(index){
@@ -353,16 +354,16 @@ this.sub=this.Etudiant.getetudiant(Number(localStorage.getItem('id'))).subscribe
       if(this.lstspecialite2[i].id_specialite==index){
         return this.lstspecialite2[i].libelles
       }
-      
+
     }
   }
   getniveau(index){
-  
+
     for (let i = 0; i < this.lstNiveau.length; i++) {
       if(this.lstNiveau[i].id_niveau==index){
         return this.lstNiveau[i].libelle
       }
-      
+
     }
   }
   getAUfin(index){
@@ -370,7 +371,7 @@ this.sub=this.Etudiant.getetudiant(Number(localStorage.getItem('id'))).subscribe
       if(this.lstAUdeb[i].id==index){
         return this.lstAUdeb[i].nom
       }
-      
+
     }
   }
   getAUdeb(index){
@@ -378,10 +379,10 @@ this.sub=this.Etudiant.getetudiant(Number(localStorage.getItem('id'))).subscribe
       if(this.lstAUfin[i].id==index){
         return this.lstAUfin[i].nom
       }
-      
+
     }
   }
-  //switch cursus ajout 
+  //switch cursus ajout
   SwitchRepeatedInfo=false;
   ButtonRepeatedInfo=false;
   thereiscursus=false;
@@ -398,7 +399,7 @@ this.sub=this.Etudiant.getetudiant(Number(localStorage.getItem('id'))).subscribe
       console.log(this.C)
       this.C.moyenne=0;
       this.C.credit=0;
-     
+
       if(this.lstcursus[this.lstcursus.length-1].id_niveau==this.lstNiveau[this.lstNiveau.length-1].id_niveau)
       {this.C.id_niveau=this.lstcursus[this.lstcursus.length-1].id_niveau;}
         else
@@ -409,7 +410,7 @@ this.sub=this.Etudiant.getetudiant(Number(localStorage.getItem('id'))).subscribe
     }
   }
   AjouterCursus(){
-  
+
     this.C.id_etablissement=Number(this.C.id_etablissement)
     this.C.id_domaine=Number(this.C.id_domaine)
     this.C.id_niveau=Number(this.C.id_niveau)
@@ -446,7 +447,7 @@ swal('Cursus','Cursus ajouté avec succés','success')
       title: "Cursus",
       text: "Voulez vous supprimer cette année universitaire du cursus  ?",
       icon: "warning",
-     
+
       buttons: ["Non", "Oui"],
       dangerMode: false,
     })
@@ -457,8 +458,8 @@ swal('Cursus','Cursus ajouté avec succés','success')
           this.refresh2();
         },800);
       }
-    }); 
-    
+    });
+
   }
   modif=false;
   modifierCursus(item){

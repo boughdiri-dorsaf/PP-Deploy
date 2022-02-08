@@ -80,24 +80,7 @@ export class AuthComponent implements OnInit {
             this.route.navigateByUrl('dashboard');
           }
           this.US.isloggedin = true;
-      }else if(val.message == "Email n'est pas verifie"){
-        this.message = val.message;
-        this.compteur ++;
-        var alert1 = {
-          type: 'danger',
-          message: "Il faut activer votre compte !"
-        };
-
-        this.alerts.push({
-          type: 'danger',
-          message: "Il faut activer votre compte !"
-        })
-        var i = this.alerts.indexOf(alert1);
-
-
-        return;
-      }
-      else {
+      }else {
 
         this.message = val.message;
         this.compteur ++;
